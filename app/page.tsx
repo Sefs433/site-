@@ -2,16 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Users, Trophy, Twitch, Send } from "lucide-react";
+import { Users, Trophy, Send } from "lucide-react";
 
-interface CountdownProps {
-  targetDate: string;
-}
-
-function Countdown({ targetDate }: CountdownProps) {
+function Countdown({ targetDate }: { targetDate: string }) {
   const calculateTimeLeft = () => {
     const difference = +new Date(targetDate) - +new Date();
-    let timeLeft = {};
+    let timeLeft: any = {};
 
     if (difference > 0) {
       timeLeft = {
@@ -31,7 +27,6 @@ function Countdown({ targetDate }: CountdownProps) {
     const timer = setInterval(() => {
       setTimeLeft(calculateTimeLeft());
     }, 1000);
-
     return () => clearInterval(timer);
   }, []);
 
@@ -52,7 +47,7 @@ export default function PremiumTeamSite() {
     <div className="min-h-screen bg-black text-white relative overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(0,120,255,0.15),transparent_40%),radial-gradient(circle_at_80%_80%,rgba(0,255,200,0.1),transparent_40%)]" />
 
-      {/* TELEGRAM BUTTON */}
+      {/* TELEGRAM SIDE BUTTON */}
       <motion.a
         initial={{ x: 100, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
@@ -103,8 +98,12 @@ export default function PremiumTeamSite() {
 
           <div className="rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 p-8 flex justify-between items-center">
             <div>
-              <div className="text-2xl font-bold">FACEIT / RIEM RIO</div>
-              <div className="opacity-50">7 марта 2026</div>
+              <div className="text-2xl font-bold">
+                RIEM RIO 7 марта 2026
+              </div>
+              <div className="opacity-50 mt-1">
+                W StarLadder
+              </div>
             </div>
             <Countdown targetDate="2026-03-07T18:00:00" />
           </div>
@@ -153,6 +152,37 @@ export default function PremiumTeamSite() {
                 <div className="opacity-60 mt-2">{player.role}</div>
               </div>
             ))}
+          </div>
+        </section>
+
+        {/* FOOTER LINKS */}
+        <section className="mt-32 border-t border-white/10 pt-10">
+          <div className="flex flex-col md:flex-row justify-center items-center gap-6 text-lg">
+
+            <a
+              href="https://www.twitch.tv/f0w4rdd"
+              target="_blank"
+              className="opacity-70 hover:opacity-100 transition"
+            >
+              Twitch
+            </a>
+
+            <a
+              href="https://t.me/team1337cs2"
+              target="_blank"
+              className="opacity-70 hover:opacity-100 transition"
+            >
+              Telegram
+            </a>
+
+            <a
+              href="https://1wfetj.life/v3/landing-page/cyber?p=2gci"
+              target="_blank"
+              className="text-yellow-400 font-semibold hover:text-yellow-300 transition"
+            >
+              1WIN
+            </a>
+
           </div>
         </section>
 
