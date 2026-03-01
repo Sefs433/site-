@@ -1,11 +1,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { Users, Trophy, Twitch, Send } from "lucide-react";
 
-function Countdown({ targetDate }: { targetDate: string }) {
+interface CountdownProps {
+  targetDate: string;
+}
+
+function Countdown({ targetDate }: CountdownProps) {
   const calculateTimeLeft = () => {
     const difference = +new Date(targetDate) - +new Date();
-    let timeLeft: any = {};
+    let timeLeft = {};
 
     if (difference > 0) {
       timeLeft = {
@@ -25,129 +31,131 @@ function Countdown({ targetDate }: { targetDate: string }) {
     const timer = setInterval(() => {
       setTimeLeft(calculateTimeLeft());
     }, 1000);
+
     return () => clearInterval(timer);
   }, []);
 
   return (
-    <div className="flex gap-6 text-3xl font-bold mt-6">
+    <div className="flex gap-4 text-xl font-bold">
       {Object.entries(timeLeft).map(([label, value]) => (
         <div key={label} className="text-center">
-          <div className="text-cyan-400">
-            {String(value).padStart(2, "0")}
-          </div>
-          <div className="text-xs uppercase opacity-70">{label}</div>
+          <div>{String(value).padStart(2, "0")}</div>
+          <div className="text-xs opacity-50">{label}</div>
         </div>
       ))}
     </div>
   );
 }
 
-export default function Home() {
+export default function PremiumTeamSite() {
   return (
-    <main className="min-h-screen bg-black text-white px-10 py-14">
+    <div className="min-h-screen bg-black text-white relative overflow-hidden">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(0,120,255,0.15),transparent_40%),radial-gradient(circle_at_80%_80%,rgba(0,255,200,0.1),transparent_40%)]" />
 
-      {/* HERO */}
-      <section className="mb-20">
-        <h1 className="text-5xl font-extrabold bg-gradient-to-r from-cyan-400 to-blue-600 bg-clip-text text-transparent">
-          1337 TEAM
-        </h1>
-        <p className="mt-4 text-gray-400 text-lg">
-          Competitive CS2 Roster • FACEIT Core
-        </p>
-
-        <div className="flex gap-4 mt-6">
-          <a href="https://t.me/yourtelegram" target="_blank"
-            className="bg-cyan-500 px-6 py-3 rounded-lg font-semibold hover:bg-cyan-400 transition">
-            Telegram
-          </a>
-
-          <a href="https://twitch.tv/yourtwitch" target="_blank"
-            className="bg-purple-600 px-6 py-3 rounded-lg font-semibold hover:bg-purple-500 transition">
-            Twitch
-          </a>
+      {/* TELEGRAM BUTTON */}
+      <motion.a
+        initial={{ x: 100, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ duration: 0.6 }}
+        href="https://t.me/team1337cs2"
+        target="_blank"
+        className="hidden md:block fixed right-0 top-1/2 -translate-y-1/2 z-50"
+      >
+        <div className="flex items-center gap-3 bg-gradient-to-r from-cyan-500 to-blue-500 px-5 py-4 rounded-l-2xl shadow-2xl">
+          <Send className="w-5 h-5 text-white" />
+          <span className="font-semibold text-white">Связь с нами</span>
         </div>
-      </section>
+      </motion.a>
 
-      {/* NEXT TOURNAMENT */}
-      <section className="mb-20">
-        <h2 className="text-3xl font-bold">🔥 Ближайший турнир</h2>
-        <p className="mt-2 text-lg text-gray-400">7 марта</p>
-        <Countdown targetDate="2026-03-07T18:00:00" />
-      </section>
+      <div className="relative z-10 max-w-6xl mx-auto px-6 py-20 space-y-32">
 
-      {/* TOURNAMENTS */}
-      <section className="mb-20">
-        <h2 className="text-3xl font-bold">🏆 Турниры</h2>
-        <div className="mt-6 space-y-3 text-lg">
-          <p>• FACEIT Tournament — 7 марта</p>
-          <p>• RIEM RIO — 7 марта</p>
-          <p>• 1WIN CUP — 7 марта</p>
-        </div>
-      </section>
+        {/* HERO */}
+        <section className="grid md:grid-cols-2 gap-10 items-center">
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="space-y-6"
+          >
+            <h1 className="text-6xl md:text-7xl font-extrabold">
+              1337 <span className="text-blue-500">Team</span>
+            </h1>
+            <p className="text-lg opacity-70">
+              Competitive CS2 Roster • FACEIT Core
+            </p>
+          </motion.div>
 
-      {/* ROSTER */}
-      <section className="mb-20">
-        <h2 className="text-3xl font-bold mb-6">👑 Основной состав</h2>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1 }}
+            className="h-80 bg-gradient-to-br from-blue-600/30 to-cyan-400/20 rounded-3xl backdrop-blur-xl shadow-2xl flex items-center justify-center text-3xl font-bold"
+          >
+            PRO ROSTER
+          </motion.div>
+        </section>
 
-        <div className="grid md:grid-cols-2 gap-6">
+        {/* TOURNAMENT */}
+        <section className="space-y-10">
+          <h2 className="text-4xl font-bold flex items-center gap-3">
+            <Trophy /> Ближайший турнир
+          </h2>
 
-          <Player name="amullet" level="8" flag="🇺🇦" role="Rifler" />
-          <Player name="xinxed" level="9" flag="🇷🇺" role="Rifler • Captain" highlight />
-          <Player name="kironixx" level="8" flag="🇷🇺" role="Rifler" />
-          <Player name="s1per" level="8" flag="🇷🇺" role="Rifler" />
-          <Player name="for4ward" level="8" flag="🇷🇺" role="AWP" />
+          <div className="rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 p-8 flex justify-between items-center">
+            <div>
+              <div className="text-2xl font-bold">FACEIT / RIEM RIO</div>
+              <div className="opacity-50">7 марта 2026</div>
+            </div>
+            <Countdown targetDate="2026-03-07T18:00:00" />
+          </div>
+        </section>
 
-        </div>
-      </section>
+        {/* ROSTER */}
+        <section className="space-y-10">
+          <h2 className="text-4xl font-bold flex items-center gap-3">
+            <Users /> Основной состав
+          </h2>
 
-      {/* BENCH */}
-      <section className="mb-20">
-        <h2 className="text-3xl font-bold mb-6">🪑 Bench</h2>
+          <div className="grid md:grid-cols-3 gap-6">
+            {[
+              { nick: "amullet 🇺🇦", role: "FACEIT 8 • Rifler" },
+              { nick: "xinxed 🇷🇺", role: "FACEIT 9 • Captain" },
+              { nick: "kironixx 🇷🇺", role: "FACEIT 8 • Rifler" },
+              { nick: "s1per 🇷🇺", role: "FACEIT 8 • Rifler" },
+              { nick: "for4ward 🇷🇺", role: "FACEIT 8 • AWP" },
+            ].map((player) => (
+              <motion.div
+                key={player.nick}
+                whileHover={{ scale: 1.05 }}
+                className="rounded-3xl bg-gradient-to-br from-white/5 to-white/10 p-6 backdrop-blur-xl shadow-xl border border-white/10"
+              >
+                <div className="text-2xl font-bold">{player.nick}</div>
+                <div className="opacity-60 mt-2">{player.role}</div>
+              </motion.div>
+            ))}
+          </div>
+        </section>
 
-        <div className="grid md:grid-cols-2 gap-6">
-          <Player name="hulsey" level="7" flag="🇷🇺" role="Rifler" />
-          <Player name="winda" level="8" flag="🇷🇺" role="Rifler" />
-        </div>
-      </section>
+        {/* BENCH */}
+        <section className="space-y-10">
+          <h2 className="text-4xl font-bold">Bench</h2>
 
-      {/* PARTNERS */}
-      <section>
-        <h2 className="text-3xl font-bold mb-6">🤝 Партнёры</h2>
-        <div className="bg-gray-900 p-6 rounded-xl text-xl font-semibold text-yellow-400">
-          1WIN Official Partner
-        </div>
-      </section>
+          <div className="grid md:grid-cols-2 gap-6">
+            {[
+              { nick: "hulsey 🇷🇺", role: "FACEIT 7 • Rifler" },
+              { nick: "winda 🇷🇺", role: "FACEIT 8 • Rifler" },
+            ].map((player) => (
+              <div
+                key={player.nick}
+                className="rounded-3xl bg-white/5 p-6 backdrop-blur-xl border border-white/10"
+              >
+                <div className="text-2xl font-bold">{player.nick}</div>
+                <div className="opacity-60 mt-2">{player.role}</div>
+              </div>
+            ))}
+          </div>
+        </section>
 
-    </main>
-  );
-}
-
-function Player({
-  name,
-  level,
-  flag,
-  role,
-  highlight
-}: {
-  name: string;
-  level: string;
-  flag: string;
-  role: string;
-  highlight?: boolean;
-}) {
-  return (
-    <div className={`p-5 rounded-xl border transition
-      ${highlight
-        ? "bg-blue-800 border-cyan-400 shadow-lg shadow-cyan-500/30"
-        : "bg-gray-900 border-gray-800 hover:border-cyan-500"
-      }`}>
-
-      <div className="text-xl font-bold">
-        {name} {flag}
-      </div>
-
-      <div className="mt-2 text-gray-400">
-        FACEIT lvl {level} • {role}
       </div>
     </div>
   );
