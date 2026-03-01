@@ -65,51 +65,43 @@ export default function PremiumTeamSite() {
       <div className="relative z-10 max-w-6xl mx-auto px-6 py-20 space-y-32">
 
         {/* HERO */}
-        <section className="grid md:grid-cols-2 gap-10 items-center">
-          <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="space-y-6"
-          >
-            <h1 className="text-6xl md:text-7xl font-extrabold">
-              1337 <span className="text-blue-500">Team</span>
-            </h1>
-            <p className="text-lg opacity-70">
-              Competitive CS2 Roster • FACEIT Core
-            </p>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1 }}
-            className="h-80 bg-gradient-to-br from-blue-600/30 to-cyan-400/20 rounded-3xl backdrop-blur-xl shadow-2xl flex items-center justify-center text-3xl font-bold"
-          >
-            PRO ROSTER
-          </motion.div>
+        <section className="space-y-6">
+          <h1 className="text-6xl font-extrabold">
+            1337 <span className="text-blue-500">Team</span>
+          </h1>
+          <p className="text-lg opacity-70">
+            Competitive CS2 Roster • FACEIT Core
+          </p>
         </section>
 
-        {/* TOURNAMENT */}
+        {/* TOURNAMENTS */}
         <section className="space-y-10">
           <h2 className="text-4xl font-bold flex items-center gap-3">
-            <Trophy /> Ближайший турнир
+            <Trophy /> Турниры
           </h2>
 
-          <div className="rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 p-8 flex justify-between items-center">
-            <div>
+          <div className="grid md:grid-cols-2 gap-6">
+
+            {/* RIEM RIO */}
+            <div className="rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 p-8 space-y-6">
               <div className="text-2xl font-bold">
-                RIEM RIO 7 марта 2026
+                RIEM RIO
               </div>
-              <div className="opacity-50 mt-1">
+              <Countdown targetDate="2026-03-07T18:00:00" />
+            </div>
+
+            {/* W StarLadder */}
+            <div className="rounded-3xl bg-white/5 backdrop-blur-xl border border-cyan-500/20 p-8 space-y-6">
+              <div className="text-2xl font-bold text-cyan-400">
                 W StarLadder
               </div>
+              <Countdown targetDate="2026-03-07T18:00:00" />
             </div>
-            <Countdown targetDate="2026-03-07T18:00:00" />
+
           </div>
         </section>
 
-        {/* ROSTER */}
+        {/* MAIN ROSTER */}
         <section className="space-y-10">
           <h2 className="text-4xl font-bold flex items-center gap-3">
             <Users /> Основной состав
@@ -155,34 +147,43 @@ export default function PremiumTeamSite() {
           </div>
         </section>
 
+        {/* ACADEMY */}
+        <section className="space-y-10">
+          <h2 className="text-4xl font-bold flex items-center gap-3">
+            <Users /> Академический состав
+          </h2>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {[
+              { nick: "LeV1sY", role: "Опен" },
+              { nick: "Mezagy", role: "Рифл" },
+              { nick: "Dezmoral", role: "Авп" },
+              { nick: "TwiZzy", role: "Люрк" },
+              { nick: "Klimen1245", role: "Игл" },
+            ].map((player) => (
+              <div
+                key={player.nick}
+                className="rounded-3xl bg-gradient-to-br from-cyan-500/10 to-blue-500/10 p-6 backdrop-blur-xl border border-cyan-500/20"
+              >
+                <div className="text-2xl font-bold">{player.nick}</div>
+                <div className="opacity-60 mt-2">{player.role}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+
         {/* FOOTER LINKS */}
         <section className="mt-32 border-t border-white/10 pt-10">
           <div className="flex flex-col md:flex-row justify-center items-center gap-6 text-lg">
-
-            <a
-              href="https://www.twitch.tv/f0w4rdd"
-              target="_blank"
-              className="opacity-70 hover:opacity-100 transition"
-            >
+            <a href="https://www.twitch.tv/f0w4rdd" target="_blank" className="opacity-70 hover:opacity-100 transition">
               Twitch
             </a>
-
-            <a
-              href="https://t.me/team1337cs2"
-              target="_blank"
-              className="opacity-70 hover:opacity-100 transition"
-            >
+            <a href="https://t.me/team1337cs2" target="_blank" className="opacity-70 hover:opacity-100 transition">
               Telegram
             </a>
-
-            <a
-              href="https://1wfetj.life/v3/landing-page/cyber?p=2gci"
-              target="_blank"
-              className="text-yellow-400 font-semibold hover:text-yellow-300 transition"
-            >
+            <a href="https://1wfetj.life/v3/landing-page/cyber?p=2gci" target="_blank" className="text-yellow-400 font-semibold hover:text-yellow-300 transition">
               1WIN
             </a>
-
           </div>
         </section>
 
