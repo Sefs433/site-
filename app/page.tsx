@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Users, Trophy, Twitch, Send } from "lucide-react";
 
-function Countdown({ targetDate }) {
+function Countdown({ targetDate }: { targetDate: string }) {
   const calculateTimeLeft = () => {
     const difference = +new Date(targetDate) - +new Date();
     let timeLeft = {};
