@@ -70,7 +70,7 @@ export default function PremiumTeamSite() {
             1337 <span className="text-blue-500">Team</span>
           </h1>
           <p className="text-lg opacity-70">
-            Competitive CS2 Roster • FACEIT Core
+            Competitive CS2 Roster
           </p>
         </section>
 
@@ -82,7 +82,6 @@ export default function PremiumTeamSite() {
 
           <div className="grid md:grid-cols-2 gap-6">
 
-            {/* RIEM RIO */}
             <div className="rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 p-8 space-y-6">
               <div className="text-2xl font-bold">
                 RIEM RIO
@@ -90,7 +89,6 @@ export default function PremiumTeamSite() {
               <Countdown targetDate="2026-03-07T18:00:00" />
             </div>
 
-            {/* W StarLadder */}
             <div className="rounded-3xl bg-white/5 backdrop-blur-xl border border-cyan-500/20 p-8 space-y-6">
               <div className="text-2xl font-bold text-cyan-400">
                 W StarLadder
@@ -127,39 +125,19 @@ export default function PremiumTeamSite() {
           </div>
         </section>
 
-        {/* BENCH */}
-        <section className="space-y-10">
-          <h2 className="text-4xl font-bold">Bench</h2>
-
-          <div className="grid md:grid-cols-2 gap-6">
-            {[
-              { nick: "hulsey 🇷🇺", role: "FACEIT 7 • Rifler" },
-              { nick: "winda 🇷🇺", role: "FACEIT 8 • Rifler" },
-            ].map((player) => (
-              <div
-                key={player.nick}
-                className="rounded-3xl bg-white/5 p-6 backdrop-blur-xl border border-white/10"
-              >
-                <div className="text-2xl font-bold">{player.nick}</div>
-                <div className="opacity-60 mt-2">{player.role}</div>
-              </div>
-            ))}
-          </div>
-        </section>
-
         {/* ACADEMY */}
         <section className="space-y-10">
           <h2 className="text-4xl font-bold flex items-center gap-3">
-            <Users /> Академический состав
+            <Users /> Academy
           </h2>
 
           <div className="grid md:grid-cols-3 gap-6">
             {[
-              { nick: "LeV1sY", role: "Опен" },
-              { nick: "Mezagy", role: "Рифл" },
-              { nick: "Dezmoral", role: "Авп" },
-              { nick: "TwiZzy", role: "Люрк" },
-              { nick: "Klimen1245", role: "Игл" },
+              { nick: "LeV1sY", role: "Entry" },
+              { nick: "Mezagy", role: "Rifler" },
+              { nick: "Dezmoral", role: "AWP" },
+              { nick: "TwiZzy", role: "Lurker" },
+              { nick: "Klimen1245", role: "IGL" },
             ].map((player) => (
               <div
                 key={player.nick}
