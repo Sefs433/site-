@@ -166,11 +166,11 @@ export default function TeamSite() {
                     Дата начала
                   </div>
                   <div className="text-lg font-semibold">
-                    15 апреля 2026 — 18:00
+                    7 марта 2026 
                   </div>
                 </div>
 
-                <Countdown targetDate="2026-04-15T18:00:00" />
+                <Countdown targetDate="2026-03-07T18:00:00" />
 
                 <div className="text-neutral-400 mt-6">
                   Соперники будут объявлены позже
@@ -211,7 +211,7 @@ export default function TeamSite() {
             </div>
 
             <div className="text-lg">
-              🎁 <span className="font-bold">БОНУСЫ ПО ПРОМОКОДУ 1337CS2</span>
+               <span className="font-bold">БОНУСЫ ПО ПРОМОКОДУ 1337CS2</span>
             </div>
 
             <div>
@@ -245,9 +245,9 @@ export default function TeamSite() {
             <div className="p-8 bg-[#111] border border-neutral-800">
               <div className="font-bold mb-4">Трофеи</div>
               <ul>
-                <li>🥇 1 место —</li>
-                <li>🥈 2 место —</li>
-                <li>🥉 3 место — W Cup 2</li>
+                <li> 1 место —</li>
+                <li> 2 место —</li>
+                <li> 3 место — W Cup 2</li>
               </ul>
             </div>
 
