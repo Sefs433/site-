@@ -17,7 +17,6 @@ function Countdown({ targetDate }: { targetDate: string }) {
         seconds: Math.floor((difference / 1000) % 60),
       };
     }
-
     return timeLeft;
   };
 
@@ -31,13 +30,26 @@ function Countdown({ targetDate }: { targetDate: string }) {
   }, []);
 
   return (
-    <div className="flex gap-4 text-xl font-bold">
+    <div className="flex gap-4 text-lg font-bold">
       {Object.entries(timeLeft).map(([label, value]) => (
         <div key={label} className="text-center">
-          <div>{String(value).padStart(2, "0")}</div>
+          <div className="text-cyan-400">
+            {String(value).padStart(2, "0")}
+          </div>
           <div className="text-xs opacity-50">{label}</div>
         </div>
       ))}
+    </div>
+  );
+}
+
+function FaceitBadge({ level }: { level: number }) {
+  return (
+    <div className="flex items-center gap-2 bg-orange-500/20 border border-orange-500/40 px-3 py-1 rounded-full">
+      <div className="w-2 h-2 bg-orange-500 rounded-full" />
+      <span className="text-orange-400 font-semibold text-sm">
+        LVL {level}
+      </span>
     </div>
   );
 }
@@ -47,7 +59,7 @@ export default function PremiumTeamSite() {
     <div className="min-h-screen bg-black text-white relative overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(0,120,255,0.15),transparent_40%),radial-gradient(circle_at_80%_80%,rgba(0,255,200,0.1),transparent_40%)]" />
 
-      {/* TELEGRAM SIDE BUTTON */}
+      {/* SIDE TELEGRAM */}
       <motion.a
         initial={{ x: 100, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
@@ -62,7 +74,7 @@ export default function PremiumTeamSite() {
         </div>
       </motion.a>
 
-      <div className="relative z-10 max-w-6xl mx-auto px-6 py-20 space-y-32">
+      <div className="relative z-10 max-w-6xl mx-auto px-6 py-20 space-y-24">
 
         {/* HERO */}
         <section className="space-y-6">
@@ -82,14 +94,12 @@ export default function PremiumTeamSite() {
 
           <div className="grid md:grid-cols-2 gap-6">
 
-            <div className="rounded-3xl bg-white/5 backdrop-blur-xl border border-white/10 p-8 space-y-6">
-              <div className="text-2xl font-bold">
-                RIEM RIO
-              </div>
+            <div className="rounded-3xl bg-white/5 p-8 backdrop-blur-xl border border-white/10 space-y-4">
+              <div className="text-2xl font-bold">RIEM RIO</div>
               <Countdown targetDate="2026-03-07T18:00:00" />
             </div>
 
-            <div className="rounded-3xl bg-white/5 backdrop-blur-xl border border-cyan-500/20 p-8 space-y-6">
+            <div className="rounded-3xl bg-white/5 p-8 backdrop-blur-xl border border-cyan-500/20 space-y-4">
               <div className="text-2xl font-bold text-cyan-400">
                 W StarLadder
               </div>
@@ -107,19 +117,20 @@ export default function PremiumTeamSite() {
 
           <div className="grid md:grid-cols-3 gap-6">
             {[
-              { nick: "amullet 🇺🇦", role: "FACEIT 8 • Rifler" },
-              { nick: "xinxed 🇷🇺", role: "FACEIT 9 • Captain" },
-              { nick: "kironixx 🇷🇺", role: "FACEIT 8 • Rifler" },
-              { nick: "s1per 🇷🇺", role: "FACEIT 8 • Rifler" },
-              { nick: "for4ward 🇷🇺", role: "FACEIT 8 • AWP" },
+              { nick: "amullet 🇺🇦", lvl: 8, role: "Rifler" },
+              { nick: "xinxed 🇷🇺", lvl: 9, role: "Captain" },
+              { nick: "kironixx 🇷🇺", lvl: 8, role: "Rifler" },
+              { nick: "s1per 🇷🇺", lvl: 8, role: "Rifler" },
+              { nick: "for4ward 🇷🇺", lvl: 8, role: "AWP" },
             ].map((player) => (
               <motion.div
                 key={player.nick}
                 whileHover={{ scale: 1.05 }}
-                className="rounded-3xl bg-gradient-to-br from-white/5 to-white/10 p-6 backdrop-blur-xl shadow-xl border border-white/10"
+                className="rounded-3xl bg-gradient-to-br from-white/5 to-white/10 p-6 backdrop-blur-xl shadow-xl border border-white/10 space-y-3"
               >
                 <div className="text-2xl font-bold">{player.nick}</div>
-                <div className="opacity-60 mt-2">{player.role}</div>
+                <FaceitBadge level={player.lvl} />
+                <div className="opacity-60">{player.role}</div>
               </motion.div>
             ))}
           </div>
@@ -127,8 +138,8 @@ export default function PremiumTeamSite() {
 
         {/* ACADEMY */}
         <section className="space-y-10">
-          <h2 className="text-4xl font-bold flex items-center gap-3">
-            <Users /> Academy
+          <h2 className="text-4xl font-bold">
+            Academy
           </h2>
 
           <div className="grid md:grid-cols-3 gap-6">
@@ -150,16 +161,12 @@ export default function PremiumTeamSite() {
           </div>
         </section>
 
-        {/* FOOTER LINKS */}
-        <section className="mt-32 border-t border-white/10 pt-10">
-          <div className="flex flex-col md:flex-row justify-center items-center gap-6 text-lg">
-            <a href="https://www.twitch.tv/f0w4rdd" target="_blank" className="opacity-70 hover:opacity-100 transition">
-              Twitch
-            </a>
-            <a href="https://t.me/team1337cs2" target="_blank" className="opacity-70 hover:opacity-100 transition">
-              Telegram
-            </a>
-            <a href="https://1wfetj.life/v3/landing-page/cyber?p=2gci" target="_blank" className="text-yellow-400 font-semibold hover:text-yellow-300 transition">
+        {/* FOOTER */}
+        <section className="mt-24 border-t border-white/10 pt-8">
+          <div className="flex justify-center gap-8 text-lg">
+            <a href="https://www.twitch.tv/f0w4rdd" target="_blank">Twitch</a>
+            <a href="https://t.me/team1337cs2" target="_blank">Telegram</a>
+            <a href="https://1wfetj.life/v3/landing-page/cyber?p=2gci" target="_blank" className="text-yellow-400 font-semibold">
               1WIN
             </a>
           </div>
