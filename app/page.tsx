@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Users, Trophy, Send, Star, Crown } from "lucide-react";
+import { Users, Trophy, Crown, Star } from "lucide-react";
 
 function Countdown({ targetDate }: { targetDate: string }) {
   const calculateTimeLeft = () => {
@@ -45,6 +45,17 @@ function Countdown({ targetDate }: { targetDate: string }) {
   );
 }
 
+function FaceitBadge({ level }: { level: number }) {
+  return (
+    <div className="flex items-center gap-2 bg-amber-500/20 border border-amber-400/40 px-3 py-1 rounded-full">
+      <div className="w-2 h-2 bg-amber-400 rounded-full" />
+      <span className="text-amber-400 font-semibold text-sm">
+        LVL {level}
+      </span>
+    </div>
+  );
+}
+
 function TournamentCard({
   title,
   targetDate,
@@ -67,9 +78,8 @@ function TournamentCard({
 
       {group && open && (
         <motion.div
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: "auto" }}
-          transition={{ duration: 0.3 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
           className="pt-4 border-t border-white/10 space-y-2"
         >
           <div className="text-sm uppercase opacity-50">Группа A</div>
@@ -89,11 +99,11 @@ function TournamentCard({
 
 export default function TeamSite() {
   const players = [
-    { nick: "amullet 🇺🇦", role: "Rifler", kd: "1.35" },
-    { nick: "s1per 🇷🇺", role: "Rifler", kd: "1.26" },
-    { nick: "xinxed 🇷🇺", role: "Captain", kd: "1.12" },
-    { nick: "kironixx 🇷🇺", role: "Rifler", kd: "1.15" },
-    { nick: "for4ward 🇷🇺", role: "AWP", kd: "1.05" },
+    { nick: "amullet 🇺🇦", role: "Rifler", lvl: 8, kd: "1.35" },
+    { nick: "s1per 🇷🇺", role: "Rifler", lvl: 8, kd: "1.26" },
+    { nick: "xinxed 🇷🇺", role: "Captain", lvl: 9, kd: "1.12" },
+    { nick: "kironixx 🇷🇺", role: "Rifler", lvl: 8, kd: "1.15" },
+    { nick: "for4ward 🇷🇺", role: "AWP", lvl: 8, kd: "1.05" },
   ];
 
   return (
@@ -140,26 +150,33 @@ export default function TeamSite() {
 
           <div className="grid md:grid-cols-3 gap-6">
             {players.map((player) => (
-              <motion.div
+              <div
                 key={player.nick}
-                whileHover={{ scale: 1.05 }}
-                className="group relative rounded-3xl bg-white/5 p-6 backdrop-blur-xl border border-cyan-500/20 space-y-3 hover:border-cyan-400 transition overflow-hidden"
+                className="group perspective"
               >
-                <div className="text-2xl font-bold">{player.nick}</div>
-                <div className="opacity-60">{player.role}</div>
+                <div className="relative h-48 w-full transition-transform duration-500 transform-style-preserve-3d group-hover:rotate-y-180">
 
-                {/* Hover K/D */}
-                <div className="absolute inset-0 bg-black/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
-                  <div className="text-center">
-                    <div className="text-cyan-400 text-sm uppercase opacity-60">
-                      K/D за последние игры
-                    </div>
-                    <div className="text-4xl font-extrabold text-amber-400">
-                      {player.kd}
+                  {/* FRONT */}
+                  <div className="absolute inset-0 rounded-3xl bg-white/5 p-6 border border-cyan-500/20 space-y-3 backface-hidden">
+                    <div className="text-2xl font-bold">{player.nick}</div>
+                    <FaceitBadge level={player.lvl} />
+                    <div className="opacity-60">{player.role}</div>
+                  </div>
+
+                  {/* BACK */}
+                  <div className="absolute inset-0 rounded-3xl bg-black flex items-center justify-center border border-amber-400/40 rotate-y-180 backface-hidden">
+                    <div className="text-center">
+                      <div className="text-cyan-400 text-sm uppercase opacity-60">
+                        K/D за последние игры
+                      </div>
+                      <div className="text-4xl font-extrabold text-amber-400">
+                        {player.kd}
+                      </div>
                     </div>
                   </div>
+
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
         </section>
@@ -174,7 +191,6 @@ export default function TeamSite() {
             <div className="text-2xl font-bold text-cyan-400">
               🎁 БОНУСЫ ПО ПРОМОКОДУ 1337CS2
             </div>
-
             <ul className="space-y-3 text-lg">
               <li>— 500% бонус к первым 4 депозитам</li>
               <li>— 500 фриспинов на первые четыре депозита</li>
@@ -190,7 +206,6 @@ export default function TeamSite() {
           </h2>
 
           <div className="grid md:grid-cols-2 gap-6">
-
             <div className="rounded-3xl bg-white/5 p-6 border border-cyan-500/20 space-y-4">
               <div className="flex items-center gap-2 text-xl font-bold">
                 <Trophy className="text-amber-400" /> Трофеи
@@ -209,7 +224,6 @@ export default function TeamSite() {
               <div className="text-2xl font-extrabold">s1per</div>
               <div className="text-2xl font-extrabold">fonely</div>
             </div>
-
           </div>
         </section>
 
