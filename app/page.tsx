@@ -1,8 +1,7 @@
 "use client"
 
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import { Users, Trophy, Crown, Star } from "lucide-react";
+import { Users, Trophy, Crown, Send, ExternalLink } from "lucide-react";
 
 function Countdown({ targetDate }: { targetDate: string }) {
   const calculateTimeLeft = () => {
@@ -30,15 +29,15 @@ function Countdown({ targetDate }: { targetDate: string }) {
   }, []);
 
   return (
-    <div className="flex gap-6 text-lg font-bold">
+    <div className="flex gap-6 font-mono">
       {Object.entries(timeLeft).map(([label, value]) => (
-        <div key={label} className="text-center">
-          <div className="text-cyan-400 text-2xl">
+        <div key={label}>
+          <span className="text-amber-400 text-lg">
             {String(value).padStart(2, "0")}
-          </div>
-          <div className="text-xs opacity-50 uppercase">
+          </span>{" "}
+          <span className="text-neutral-500 text-xs uppercase">
             {label}
-          </div>
+          </span>
         </div>
       ))}
     </div>
@@ -47,53 +46,9 @@ function Countdown({ targetDate }: { targetDate: string }) {
 
 function FaceitBadge({ level }: { level: number }) {
   return (
-    <div className="flex items-center gap-2 bg-amber-500/20 border border-amber-400/40 px-3 py-1 rounded-full">
-      <div className="w-2 h-2 bg-amber-400 rounded-full" />
-      <span className="text-amber-400 font-semibold text-sm">
-        LVL {level}
-      </span>
-    </div>
-  );
-}
-
-function TournamentCard({
-  title,
-  targetDate,
-  group,
-}: {
-  title: string;
-  targetDate: string;
-  group?: string[];
-}) {
-  const [open, setOpen] = useState(false);
-
-  return (
-    <motion.div
-      layout
-      onClick={() => group && setOpen(!open)}
-      className="cursor-pointer rounded-3xl bg-white/5 p-8 backdrop-blur-xl border border-cyan-500/20 space-y-4 hover:border-cyan-400 transition"
-    >
-      <div className="text-2xl font-bold text-cyan-400">{title}</div>
-      <Countdown targetDate={targetDate} />
-
-      {group && open && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="pt-4 border-t border-white/10 space-y-2"
-        >
-          <div className="text-sm uppercase opacity-50">Группа A</div>
-          {group.map((team) => (
-            <div
-              key={team}
-              className="bg-cyan-500/10 px-4 py-2 rounded-xl border border-cyan-500/20"
-            >
-              {team}
-            </div>
-          ))}
-        </motion.div>
-      )}
-    </motion.div>
+    <span className="px-3 py-1 text-xs font-bold bg-amber-400 text-black">
+      LVL {level}
+    </span>
   );
 }
 
@@ -108,30 +63,24 @@ function PlayerCard({
   lvl: number;
   kd: string;
 }) {
-  return (
-    <motion.div
-      whileHover={{ scale: 1.05 }}
-      className="group relative rounded-3xl bg-white/5 p-6 backdrop-blur-xl border border-cyan-500/20 space-y-3 hover:border-cyan-400 transition overflow-hidden"
-    >
-      <div className="text-2xl font-bold">{nick}</div>
-      <FaceitBadge level={lvl} />
-      <div className="opacity-60">{role}</div>
+  const [hovered, setHovered] = useState(false);
 
-      {/* Hover Overlay */}
-      <div className="absolute inset-0 bg-black/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
-        <div className="text-center">
-          <div className="text-cyan-400 text-sm uppercase opacity-60">
-            K/D за последние игры
-          </div>
-          <div className="text-4xl font-extrabold text-amber-400">
-            {kd}
-          </div>
-          <div className="mt-2">
-            <FaceitBadge level={lvl} />
-          </div>
+  return (
+    <div
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      className="border border-neutral-800 p-6 bg-neutral-950 hover:border-amber-400 transition"
+    >
+      <div className="text-2xl font-extrabold">{nick}</div>
+      <div className="text-sm opacity-60 mb-2">{role}</div>
+      <FaceitBadge level={lvl} />
+
+      {hovered && (
+        <div className="mt-4 text-amber-400 font-bold">
+          K/D: {kd}
         </div>
-      </div>
-    </motion.div>
+      )}
+    </div>
   );
 }
 
@@ -145,97 +94,143 @@ export default function TeamSite() {
   ];
 
   return (
-    <div className="min-h-screen bg-black text-white relative overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(0,255,200,0.15),transparent_40%),radial-gradient(circle_at_80%_80%,rgba(0,255,200,0.08),transparent_40%)]" />
+    <div className="min-h-screen bg-[#0a0a0a] text-white px-6 py-20 space-y-32 max-w-6xl mx-auto">
 
-      <div className="relative z-10 max-w-6xl mx-auto px-6 py-20 space-y-24">
+      {/* HERO */}
+      <section>
+        <h1 className="text-7xl font-black tracking-tight">
+          1337 TEAM
+        </h1>
+      </section>
 
-        {/* HERO */}
-        <section>
-          <h1 className="text-6xl font-extrabold">
-            1337 <span className="text-cyan-400">Team</span>
-          </h1>
-        </section>
+      {/* TOURNAMENTS */}
+      <section>
+        <h2 className="text-3xl font-bold mb-6 flex items-center gap-3">
+          <Trophy size={28} /> Турниры
+        </h2>
 
-        {/* TOURNAMENTS */}
-        <section className="space-y-10">
-          <h2 className="text-4xl font-bold flex items-center gap-3">
-            <Trophy className="text-cyan-400" /> Турниры
-          </h2>
+        <div className="grid md:grid-cols-2 gap-6">
 
-          <div className="grid md:grid-cols-2 gap-6">
-            <TournamentCard
-              title="RIEM RIO"
-              targetDate="2026-03-07T18:00:00"
-              group={["1337 Team", "Xtreme Gaming", "DarkPulse"]}
-            />
-            <TournamentCard
-              title="W StarLadder"
-              targetDate="2026-03-07T18:00:00"
-            />
-          </div>
-        </section>
+          <div className="border border-neutral-800 p-8 bg-neutral-950 space-y-4">
+            <div className="text-xl font-bold">RIEM RIO</div>
+            <Countdown targetDate="2026-03-07T18:00:00" />
 
-        {/* MAIN ROSTER */}
-        <section className="space-y-10">
-          <h2 className="text-4xl font-bold flex items-center gap-3">
-            <Users className="text-cyan-400" /> Основной состав
-          </h2>
-
-          <div className="grid md:grid-cols-3 gap-6">
-            {players.map((player) => (
-              <PlayerCard key={player.nick} {...player} />
-            ))}
-          </div>
-        </section>
-
-        {/* PARTNERSHIP */}
-        <section className="space-y-10">
-          <h2 className="text-4xl font-bold text-cyan-400">
-            Партнёрство
-          </h2>
-
-          <div className="rounded-3xl bg-gradient-to-br from-cyan-500/10 to-cyan-500/5 p-10 backdrop-blur-xl border border-cyan-500/30 space-y-6">
-            <div className="text-2xl font-bold text-cyan-400">
-              🎁 БОНУСЫ ПО ПРОМОКОДУ 1337CS2
+            <div className="mt-6 text-sm uppercase text-neutral-500">
+              Группа A
             </div>
-            <ul className="space-y-3 text-lg">
-              <li>— 500% бонус к первым 4 депозитам</li>
-              <li>— 500 фриспинов на первые четыре депозита</li>
-              <li>— и другие бонусы для комфортного старта</li>
+            <ul className="space-y-1">
+              <li>1337 Team</li>
+              <li>Xtreme Gaming</li>
+              <li>DarkPulse</li>
             </ul>
           </div>
-        </section>
 
-        {/* HALL OF FAME */}
-        <section className="space-y-10">
-          <h2 className="text-4xl font-bold flex items-center gap-3 text-cyan-400">
-            <Crown /> Зал славы
-          </h2>
-
-          <div className="grid md:grid-cols-2 gap-6">
-            <div className="rounded-3xl bg-white/5 p-6 border border-cyan-500/20 space-y-4">
-              <div className="flex items-center gap-2 text-xl font-bold">
-                <Trophy className="text-amber-400" /> Трофеи
-              </div>
-              <ul className="space-y-2 opacity-80">
-                <li>🥇 1 место —</li>
-                <li>🥈 2 место —</li>
-                <li>🥉 3 место — W Cup 2</li>
-              </ul>
-            </div>
-
-            <div className="rounded-3xl bg-gradient-to-br from-amber-500/10 to-cyan-500/10 p-6 border border-amber-400/40 space-y-4">
-              <div className="flex items-center gap-2 text-xl font-bold text-amber-400">
-                <Star /> Лучшие игроки команды
-              </div>
-              <div className="text-2xl font-extrabold">s1per</div>
-              <div className="text-2xl font-extrabold">fonely</div>
-            </div>
+          <div className="border border-neutral-800 p-8 bg-neutral-950 space-y-4">
+            <div className="text-xl font-bold">W StarLadder</div>
+            <Countdown targetDate="2026-04-15T18:00:00" />
           </div>
-        </section>
 
-      </div>
+        </div>
+      </section>
+
+      {/* ROSTER */}
+      <section>
+        <h2 className="text-3xl font-bold mb-6 flex items-center gap-3">
+          <Users size={28} /> Основной состав
+        </h2>
+
+        <div className="grid md:grid-cols-3 gap-6">
+          {players.map((player) => (
+            <PlayerCard key={player.nick} {...player} />
+          ))}
+        </div>
+      </section>
+
+      {/* PARTNERSHIP */}
+      <section>
+        <h2 className="text-3xl font-bold mb-6">
+          Партнёрство
+        </h2>
+
+        <div className="border border-neutral-800 p-8 bg-neutral-950 space-y-6">
+
+          <div>
+            <div className="text-lg font-bold text-amber-400">
+              1WIN
+            </div>
+            <div className="mt-2">
+              Промокод: <span className="text-amber-400 font-bold">1337CS2</span>
+            </div>
+
+            <a
+              href="https://1wfetj.life/v3/landing-page/cyber?p=2gci"
+              target="_blank"
+              className="inline-flex items-center gap-2 mt-4 px-5 py-2 bg-amber-400 text-black font-bold hover:opacity-80 transition"
+            >
+              Перейти на 1WIN <ExternalLink size={16} />
+            </a>
+          </div>
+
+        </div>
+      </section>
+
+      {/* HALL OF FAME */}
+      <section>
+        <h2 className="text-3xl font-bold mb-6 flex items-center gap-3">
+          <Crown size={28} /> Зал славы
+        </h2>
+
+        <div className="grid md:grid-cols-2 gap-6">
+          <div className="border border-neutral-800 p-6 bg-neutral-950">
+            <div className="font-bold mb-3">Трофеи</div>
+            <ul>
+              <li>🥇 1 место —</li>
+              <li>🥈 2 место —</li>
+              <li>🥉 3 место — W Cup 2</li>
+            </ul>
+          </div>
+
+          <div className="border border-amber-400 p-6 bg-neutral-900">
+            <div className="font-bold mb-3 text-amber-400">
+              Лучшие игроки
+            </div>
+            <div>s1per</div>
+            <div>fonely</div>
+          </div>
+        </div>
+      </section>
+
+      {/* CONTACT */}
+      <section>
+        <h2 className="text-3xl font-bold mb-6 flex items-center gap-3">
+          <Send size={28} /> Связь
+        </h2>
+
+        <div className="border border-neutral-800 p-6 bg-neutral-950 space-y-4">
+          <div>
+            Telegram:{" "}
+            <a
+              href="https://t.me/team1337cs2"
+              className="text-amber-400 font-bold"
+              target="_blank"
+            >
+              t.me/team1337cs2
+            </a>
+          </div>
+
+          <div>
+            Twitch:{" "}
+            <a
+              href="https://www.twitch.tv/f0w4rdd"
+              className="text-amber-400 font-bold"
+              target="_blank"
+            >
+              twitch.tv/f0w4rdd
+            </a>
+          </div>
+        </div>
+      </section>
+
     </div>
   );
 }
