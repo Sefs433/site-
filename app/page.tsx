@@ -54,7 +54,7 @@ function FaceitBadge({ level }: { level: number }) {
   );
 }
 
-export default function PremiumTeamSite() {
+export default function TeamSite() {
   return (
     <div className="min-h-screen bg-black text-white relative overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(0,120,255,0.15),transparent_40%),radial-gradient(circle_at_80%_80%,rgba(0,255,200,0.1),transparent_40%)]" />
@@ -70,18 +70,18 @@ export default function PremiumTeamSite() {
       >
         <div className="flex items-center gap-3 bg-gradient-to-r from-cyan-500 to-blue-500 px-5 py-4 rounded-l-2xl shadow-2xl">
           <Send className="w-5 h-5 text-white" />
-          <span className="font-semibold text-white">Связь с нами</span>
+          <span className="font-semibold text-white">Связь</span>
         </div>
       </motion.a>
 
       <div className="relative z-10 max-w-6xl mx-auto px-6 py-20 space-y-24">
 
         {/* HERO */}
-        <section className="space-y-6">
+        <section>
           <h1 className="text-6xl font-extrabold">
             1337 <span className="text-blue-500">Team</span>
           </h1>
-          <p className="text-lg opacity-70">
+          <p className="text-lg opacity-70 mt-4">
             Competitive CS2 Roster
           </p>
         </section>
