@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Users, Trophy, Send } from "lucide-react";
+import { Users, Trophy, Send, Star, Crown } from "lucide-react";
 
 function Countdown({ targetDate }: { targetDate: string }) {
   const calculateTimeLeft = () => {
@@ -110,21 +110,6 @@ export default function TeamSite() {
 
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(0,255,200,0.15),transparent_40%),radial-gradient(circle_at_80%_80%,rgba(0,255,200,0.08),transparent_40%)]" />
 
-      {/* TELEGRAM */}
-      <motion.a
-        initial={{ x: 100, opacity: 0 }}
-        animate={{ x: 0, opacity: 1 }}
-        transition={{ duration: 0.6 }}
-        href="https://t.me/team1337cs2"
-        target="_blank"
-        className="hidden md:block fixed right-0 top-1/2 -translate-y-1/2 z-50"
-      >
-        <div className="flex items-center gap-3 bg-cyan-500 px-5 py-4 rounded-l-2xl hover:bg-cyan-400 transition">
-          <Send className="w-5 h-5 text-black" />
-          <span className="font-semibold text-black">Связь</span>
-        </div>
-      </motion.a>
-
       <div className="relative z-10 max-w-6xl mx-auto px-6 py-20 space-y-24">
 
         {/* HERO */}
@@ -144,7 +129,6 @@ export default function TeamSite() {
           </h2>
 
           <div className="grid md:grid-cols-2 gap-6">
-
             <TournamentCard
               title="RIEM RIO"
               targetDate="2026-03-07T18:00:00"
@@ -159,7 +143,6 @@ export default function TeamSite() {
               title="W StarLadder"
               targetDate="2026-03-07T18:00:00"
             />
-
           </div>
         </section>
 
@@ -180,7 +163,7 @@ export default function TeamSite() {
               <motion.div
                 key={player.nick}
                 whileHover={{ scale: 1.05 }}
-                className="rounded-3xl bg-white/5 p-6 backdrop-blur-xl shadow-xl border border-cyan-500/20 space-y-3 hover:border-cyan-400 transition"
+                className="rounded-3xl bg-white/5 p-6 backdrop-blur-xl border border-cyan-500/20 space-y-3 hover:border-cyan-400 transition"
               >
                 <div className="text-2xl font-bold">{player.nick}</div>
                 <FaceitBadge level={player.lvl} />
@@ -240,6 +223,37 @@ export default function TeamSite() {
             >
               Активировать бонус
             </a>
+          </div>
+        </section>
+
+        {/* HALL OF FAME */}
+        <section className="space-y-10">
+          <h2 className="text-4xl font-bold flex items-center gap-3 text-cyan-400">
+            <Crown /> Зал славы
+          </h2>
+
+          <div className="grid md:grid-cols-2 gap-6">
+
+            {/* Трофеи */}
+            <div className="rounded-3xl bg-white/5 p-6 border border-cyan-500/20 space-y-4">
+              <div className="flex items-center gap-2 text-xl font-bold">
+                <Trophy className="text-amber-400" /> Трофеи
+              </div>
+              <ul className="space-y-2 opacity-80">
+                <li>🥇 1 место —</li>
+                <li>🥈 2 место —</li>
+                <li>🥉 3 место — W Cup 2</li>
+              </ul>
+            </div>
+
+            {/* Лучшие игроки */}
+            <div className="rounded-3xl bg-gradient-to-br from-amber-500/10 to-cyan-500/10 p-6 border border-amber-400/40 space-y-4">
+              <div className="flex items-center gap-2 text-xl font-bold text-amber-400">
+                <Star /> Лучшие игроки команды
+              </div>
+              <div className="text-2xl font-extrabold">s1per</div>
+              <div className="text-2xl font-extrabold">fonely</div>
+            </div>
 
           </div>
         </section>
