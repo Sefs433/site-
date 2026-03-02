@@ -1,7 +1,48 @@
 "use client"
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Users, Trophy, Crown, Send, Handshake } from "lucide-react";
+
+function Countdown({ targetDate }: { targetDate: string }) {
+  const calculateTimeLeft = () => {
+    const difference = +new Date(targetDate) - +new Date();
+    let timeLeft: any = {};
+
+    if (difference > 0) {
+      timeLeft = {
+        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((difference / 1000 / 60) % 60),
+        seconds: Math.floor((difference / 1000) % 60),
+      };
+    }
+    return timeLeft;
+  };
+
+  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTimeLeft(calculateTimeLeft());
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <div className="flex gap-6 font-mono text-sm">
+      {Object.entries(timeLeft).map(([label, value]) => (
+        <div key={label}>
+          <span className="text-orange-500 font-bold">
+            {String(value).padStart(2, "0")}
+          </span>{" "}
+          <span className="text-neutral-500 uppercase">
+            {label}
+          </span>
+        </div>
+      ))}
+    </div>
+  );
+}
 
 function FaceitBadge({ level }: { level: number }) {
   return (
@@ -45,7 +86,6 @@ function PlayerCard({
 
 export default function TeamSite() {
   const [showTournaments, setShowTournaments] = useState(false);
-  const [selectedTournament, setSelectedTournament] = useState("RIEM RIO");
 
   const players = [
     { nick: "amullet 🇺🇦", role: "Rifler", lvl: 8, kd: "1.35" },
@@ -55,24 +95,12 @@ export default function TeamSite() {
     { nick: "for4ward 🇷🇺", role: "AWP", lvl: 8, kd: "1.05" },
   ];
 
-  const tournamentTables: any = {
-    "RIEM RIO": [
-      { team: "1337 Team", wins: 2, losses: 0 },
-      { team: "Xtreme Gaming", wins: 1, losses: 1 },
-      { team: "DarkPulse", wins: 0, losses: 2 },
-    ],
-    "W StarLadder": [
-      { team: "1337 Team", wins: 0, losses: 0 },
-      { team: "Team Nova", wins: 0, losses: 0 },
-      { team: "Iron Wolves", wins: 0, losses: 0 },
-    ],
-  };
-
   return (
-    <div className="min-h-screen bg-black text-white relative overflow-hidden">
+    <div className="relative min-h-screen bg-black text-white overflow-hidden">
 
       {/* живой фон */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,100,0,0.08),transparent_40%),radial-gradient(circle_at_80%_80%,rgba(255,255,255,0.05),transparent_50%)]" />
+
       <div className="relative z-10 max-w-6xl mx-auto px-6 py-20 space-y-24">
 
         {/* HERO */}
@@ -92,47 +120,65 @@ export default function TeamSite() {
           </button>
 
           {showTournaments && (
-            <div className="mt-10 p-8 bg-[#111] border border-neutral-800 space-y-6">
+            <div className="mt-12 grid md:grid-cols-2 gap-8">
 
-              {/* выбор турнира */}
-              <div className="flex gap-4">
-                {Object.keys(tournamentTables).map((name) => (
-                  <button
-                    key={name}
-                    onClick={() => setSelectedTournament(name)}
-                    className={`px-4 py-2 border ${
-                      selectedTournament === name
-                        ? "bg-orange-500 text-black"
-                        : "border-neutral-700"
-                    }`}
-                  >
-                    {name}
-                  </button>
-                ))}
+              {/* RIEM RIO */}
+              <div className="p-8 bg-[#111] border border-neutral-800 space-y-6">
+                <div className="text-2xl font-bold text-orange-500">
+                  RIEM RIO
+                </div>
+
+                <div>
+                  <div className="text-sm uppercase text-neutral-500 mb-2">
+                    Дата начала
+                  </div>
+                  <div className="text-lg font-semibold">
+                    7 марта 2026 — 18:00
+                  </div>
+                </div>
+
+                <Countdown targetDate="2026-03-07T18:00:00" />
+
+                <div>
+                  <div className="text-sm uppercase text-neutral-500 mt-6 mb-2">
+                    Группа A
+                  </div>
+                  <ul className="space-y-1">
+                    <li>1337 Team</li>
+                    <li>Xtreme Gaming</li>
+                    <li>DarkPulse</li>
+                  </ul>
+                </div>
+
+                <div className="text-xs text-neutral-500">
+                  Турнир ещё не начался
+                </div>
               </div>
 
-              {/* таблица */}
-              <div className="overflow-x-auto">
-                <table className="w-full text-left border-collapse">
-                  <thead>
-                    <tr className="border-b border-neutral-700">
-                      <th className="py-2">Команда</th>
-                      <th>Победы</th>
-                      <th>Поражения</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {tournamentTables[selectedTournament].map(
-                      (row: any, index: number) => (
-                        <tr key={index} className="border-b border-neutral-800">
-                          <td className="py-2">{row.team}</td>
-                          <td>{row.wins}</td>
-                          <td>{row.losses}</td>
-                        </tr>
-                      )
-                    )}
-                  </tbody>
-                </table>
+              {/* W StarLadder */}
+              <div className="p-8 bg-[#111] border border-neutral-800 space-y-6">
+                <div className="text-2xl font-bold text-orange-500">
+                  W StarLadder
+                </div>
+
+                <div>
+                  <div className="text-sm uppercase text-neutral-500 mb-2">
+                    Дата начала
+                  </div>
+                  <div className="text-lg font-semibold">
+                    15 апреля 2026 — 18:00
+                  </div>
+                </div>
+
+                <Countdown targetDate="2026-04-15T18:00:00" />
+
+                <div className="text-neutral-400 mt-6">
+                  Соперники будут объявлены позже
+                </div>
+
+                <div className="text-xs text-neutral-500">
+                  Турнир ещё не начался
+                </div>
               </div>
 
             </div>
