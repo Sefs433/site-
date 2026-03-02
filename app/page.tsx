@@ -1,48 +1,7 @@
 "use client"
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Users, Trophy, Crown, Send, Handshake } from "lucide-react";
-
-function Countdown({ targetDate }: { targetDate: string }) {
-  const calculateTimeLeft = () => {
-    const difference = +new Date(targetDate) - +new Date();
-    let timeLeft: any = {};
-
-    if (difference > 0) {
-      timeLeft = {
-        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-        minutes: Math.floor((difference / 1000 / 60) % 60),
-        seconds: Math.floor((difference / 1000) % 60),
-      };
-    }
-    return timeLeft;
-  };
-
-  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft(calculateTimeLeft());
-    }, 1000);
-    return () => clearInterval(timer);
-  }, []);
-
-  return (
-    <div className="flex gap-6 font-mono text-sm">
-      {Object.entries(timeLeft).map(([label, value]) => (
-        <div key={label}>
-          <span className="text-orange-500 font-bold">
-            {String(value).padStart(2, "0")}
-          </span>{" "}
-          <span className="text-neutral-500 uppercase">
-            {label}
-          </span>
-        </div>
-      ))}
-    </div>
-  );
-}
 
 function FaceitBadge({ level }: { level: number }) {
   return (
@@ -69,7 +28,7 @@ function PlayerCard({
     <div
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      className="relative border border-neutral-800 p-6 bg-[#111] hover:border-orange-500 transition"
+      className="border border-neutral-800 p-6 bg-[#111] hover:border-orange-500 transition"
     >
       <div className="text-2xl font-extrabold">{nick}</div>
       <div className="text-sm opacity-60 mb-2">{role}</div>
@@ -85,6 +44,9 @@ function PlayerCard({
 }
 
 export default function TeamSite() {
+  const [showTournaments, setShowTournaments] = useState(false);
+  const [selectedTournament, setSelectedTournament] = useState("RIEM RIO");
+
   const players = [
     { nick: "amullet 🇺🇦", role: "Rifler", lvl: 8, kd: "1.35" },
     { nick: "s1per 🇷🇺", role: "Rifler", lvl: 8, kd: "1.26" },
@@ -93,60 +55,92 @@ export default function TeamSite() {
     { nick: "for4ward 🇷🇺", role: "AWP", lvl: 8, kd: "1.05" },
   ];
 
+  const tournamentTables: any = {
+    "RIEM RIO": [
+      { team: "1337 Team", wins: 2, losses: 0 },
+      { team: "Xtreme Gaming", wins: 1, losses: 1 },
+      { team: "DarkPulse", wins: 0, losses: 2 },
+    ],
+    "W StarLadder": [
+      { team: "1337 Team", wins: 0, losses: 0 },
+      { team: "Team Nova", wins: 0, losses: 0 },
+      { team: "Iron Wolves", wins: 0, losses: 0 },
+    ],
+  };
+
   return (
-    <div className="relative min-h-screen text-white overflow-hidden bg-black">
+    <div className="min-h-screen bg-black text-white relative overflow-hidden">
 
-      {/* ЖИВОЙ ФОН */}
+      {/* живой фон */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,100,0,0.08),transparent_40%),radial-gradient(circle_at_80%_80%,rgba(255,255,255,0.05),transparent_50%)]" />
-      <div
-        className="absolute inset-0 opacity-[0.04]"
-        style={{
-          backgroundImage:
-            "repeating-linear-gradient(0deg, rgba(255,255,255,0.2) 0px, rgba(255,255,255,0.2) 1px, transparent 1px, transparent 3px)",
-        }}
-      />
-
       <div className="relative z-10 max-w-6xl mx-auto px-6 py-20 space-y-24">
 
         {/* HERO */}
-        <section className="border-b border-neutral-800 pb-12">
+        <section>
           <h1 className="text-7xl font-black tracking-tight">
             1337 TEAM
           </h1>
         </section>
 
-        {/* ТУРНИРЫ */}
-        <section className="border-b border-neutral-800 pb-16">
-          <h2 className="text-3xl font-bold mb-8 flex items-center gap-3">
-            <Trophy size={28} /> ТУРНИРЫ
-          </h2>
+        {/* КНОПКА ТУРНИРЫ */}
+        <section>
+          <button
+            onClick={() => setShowTournaments(!showTournaments)}
+            className="px-6 py-3 bg-orange-500 text-black font-bold hover:opacity-80 transition"
+          >
+            ТУРНИРЫ
+          </button>
 
-          <div className="grid md:grid-cols-2 gap-8">
+          {showTournaments && (
+            <div className="mt-10 p-8 bg-[#111] border border-neutral-800 space-y-6">
 
-            <div className="p-8 bg-[#111] border border-neutral-800">
-              <div className="text-xl font-bold mb-4">RIEM RIO</div>
-              <Countdown targetDate="2026-03-07T18:00:00" />
-
-              <div className="mt-6 text-sm uppercase text-neutral-500">
-                Группа A
+              {/* выбор турнира */}
+              <div className="flex gap-4">
+                {Object.keys(tournamentTables).map((name) => (
+                  <button
+                    key={name}
+                    onClick={() => setSelectedTournament(name)}
+                    className={`px-4 py-2 border ${
+                      selectedTournament === name
+                        ? "bg-orange-500 text-black"
+                        : "border-neutral-700"
+                    }`}
+                  >
+                    {name}
+                  </button>
+                ))}
               </div>
-              <ul className="mt-2 space-y-1">
-                <li>1337 Team</li>
-                <li>Xtreme Gaming</li>
-                <li>DarkPulse</li>
-              </ul>
-            </div>
 
-            <div className="p-8 bg-[#111] border border-neutral-800">
-              <div className="text-xl font-bold mb-4">W StarLadder</div>
-              <Countdown targetDate="2026-04-15T18:00:00" />
-            </div>
+              {/* таблица */}
+              <div className="overflow-x-auto">
+                <table className="w-full text-left border-collapse">
+                  <thead>
+                    <tr className="border-b border-neutral-700">
+                      <th className="py-2">Команда</th>
+                      <th>Победы</th>
+                      <th>Поражения</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {tournamentTables[selectedTournament].map(
+                      (row: any, index: number) => (
+                        <tr key={index} className="border-b border-neutral-800">
+                          <td className="py-2">{row.team}</td>
+                          <td>{row.wins}</td>
+                          <td>{row.losses}</td>
+                        </tr>
+                      )
+                    )}
+                  </tbody>
+                </table>
+              </div>
 
-          </div>
+            </div>
+          )}
         </section>
 
         {/* СОСТАВ */}
-        <section className="border-b border-neutral-800 pb-16">
+        <section>
           <h2 className="text-3xl font-bold mb-8 flex items-center gap-3">
             <Users size={28} /> СОСТАВ
           </h2>
@@ -159,28 +153,35 @@ export default function TeamSite() {
         </section>
 
         {/* ПАРТНЁРЫ */}
-        <section className="border-b border-neutral-800 pb-16">
+        <section>
           <h2 className="text-3xl font-bold mb-8 flex items-center gap-3">
             <Handshake size={28} /> ПАРТНЁРЫ
           </h2>
 
-          <div className="p-10 bg-[#111] border border-neutral-800">
+          <div className="p-10 bg-[#111] border border-neutral-800 space-y-6">
 
             <div className="text-2xl font-bold text-orange-500">
               1WIN
             </div>
 
-            <div className="mt-4 text-lg">
-              Промокод:{" "}
-              <span className="text-orange-500 font-bold">
-                1337CS2
-              </span>
+            <div className="text-lg">
+              🎁 <span className="font-bold">БОНУСЫ ПО ПРОМОКОДУ 1337CS2</span>
             </div>
+
+            <div>
+              При использовании промокода <span className="text-orange-500 font-bold">1337CS2</span> ты получаешь очень приятные бонусы, среди которых:
+            </div>
+
+            <ul className="space-y-2">
+              <li>— 500% бонус к первым 4 депозитам</li>
+              <li>— 500 фриспинов на первые четыре депозита</li>
+              <li>— и другие бонусы для комфортного старта</li>
+            </ul>
 
             <a
               href="https://1wfetj.life/v3/landing-page/cyber?p=2gci"
               target="_blank"
-              className="inline-block mt-6 px-6 py-3 bg-orange-500 text-black font-bold hover:opacity-80 transition"
+              className="inline-block mt-4 px-6 py-3 bg-orange-500 text-black font-bold hover:opacity-80 transition"
             >
               ПЕРЕЙТИ НА 1WIN
             </a>
@@ -189,13 +190,12 @@ export default function TeamSite() {
         </section>
 
         {/* ЗАЛ СЛАВЫ */}
-        <section className="border-b border-neutral-800 pb-16">
+        <section>
           <h2 className="text-3xl font-bold mb-8 flex items-center gap-3">
             <Crown size={28} /> ЗАЛ СЛАВЫ
           </h2>
 
           <div className="grid md:grid-cols-2 gap-8">
-
             <div className="p-8 bg-[#111] border border-neutral-800">
               <div className="font-bold mb-4">Трофеи</div>
               <ul>
@@ -212,7 +212,6 @@ export default function TeamSite() {
               <div>s1per</div>
               <div>fonely</div>
             </div>
-
           </div>
         </section>
 
