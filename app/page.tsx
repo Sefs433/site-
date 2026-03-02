@@ -110,6 +110,7 @@ export default function TeamSite() {
 
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(0,255,200,0.15),transparent_40%),radial-gradient(circle_at_80%_80%,rgba(0,255,200,0.08),transparent_40%)]" />
 
+      {/* TELEGRAM */}
       <motion.a
         initial={{ x: 100, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
@@ -118,7 +119,7 @@ export default function TeamSite() {
         target="_blank"
         className="hidden md:block fixed right-0 top-1/2 -translate-y-1/2 z-50"
       >
-        <div className="flex items-center gap-3 bg-cyan-500 px-5 py-4 rounded-l-2xl shadow-[0_0_25px_rgba(0,255,200,0.5)] hover:bg-cyan-400 transition">
+        <div className="flex items-center gap-3 bg-cyan-500 px-5 py-4 rounded-l-2xl hover:bg-cyan-400 transition">
           <Send className="w-5 h-5 text-black" />
           <span className="font-semibold text-black">Связь</span>
         </div>
@@ -126,6 +127,7 @@ export default function TeamSite() {
 
       <div className="relative z-10 max-w-6xl mx-auto px-6 py-20 space-y-24">
 
+        {/* HERO */}
         <section>
           <h1 className="text-6xl font-extrabold">
             1337 <span className="text-cyan-400">Team</span>
@@ -185,6 +187,60 @@ export default function TeamSite() {
                 <div className="opacity-60">{player.role}</div>
               </motion.div>
             ))}
+          </div>
+        </section>
+
+        {/* ACADEMY */}
+        <section className="space-y-10">
+          <h2 className="text-4xl font-bold text-cyan-400">
+            Academy
+          </h2>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            {[
+              { nick: "LeV1sY", role: "Entry" },
+              { nick: "Mezagy", role: "Rifler" },
+              { nick: "Dezmoral", role: "AWP" },
+              { nick: "TwiZzy", role: "Lurker" },
+              { nick: "Klimen1245", role: "IGL" },
+            ].map((player) => (
+              <div
+                key={player.nick}
+                className="rounded-3xl bg-white/5 p-6 backdrop-blur-xl border border-cyan-500/20 hover:border-cyan-400 transition"
+              >
+                <div className="text-2xl font-bold">{player.nick}</div>
+                <div className="opacity-60 mt-2">{player.role}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* PARTNERSHIP */}
+        <section className="space-y-10">
+          <h2 className="text-4xl font-bold text-cyan-400">
+            Партнёрство
+          </h2>
+
+          <div className="rounded-3xl bg-gradient-to-br from-cyan-500/10 to-cyan-500/5 p-10 backdrop-blur-xl border border-cyan-500/30 space-y-6">
+
+            <div className="text-2xl font-bold text-cyan-400">
+              🎁 БОНУСЫ ПО ПРОМОКОДУ 1337CS2
+            </div>
+
+            <ul className="space-y-3 text-lg">
+              <li>— 500% бонус к первым 4 депозитам</li>
+              <li>— 500 фриспинов на первые четыре депозита</li>
+              <li>— и другие бонусы для комфортного старта</li>
+            </ul>
+
+            <a
+              href="https://1wfetj.life/v3/landing-page/cyber?p=2gci"
+              target="_blank"
+              className="inline-block mt-6 bg-cyan-500 hover:bg-cyan-400 transition px-6 py-3 rounded-xl font-bold text-black"
+            >
+              Активировать бонус
+            </a>
+
           </div>
         </section>
 
