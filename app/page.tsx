@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
@@ -30,13 +30,15 @@ function Countdown({ targetDate }: { targetDate: string }) {
   }, []);
 
   return (
-    <div className="flex gap-4 text-lg font-bold">
+    <div className="flex gap-6 text-lg font-bold">
       {Object.entries(timeLeft).map(([label, value]) => (
         <div key={label} className="text-center">
-          <div className="text-cyan-400">
+          <div className="text-cyan-400 text-2xl drop-shadow-[0_0_8px_rgba(0,255,200,0.6)]">
             {String(value).padStart(2, "0")}
           </div>
-          <div className="text-xs opacity-50">{label}</div>
+          <div className="text-xs opacity-50 uppercase tracking-wider">
+            {label}
+          </div>
         </div>
       ))}
     </div>
@@ -45,9 +47,9 @@ function Countdown({ targetDate }: { targetDate: string }) {
 
 function FaceitBadge({ level }: { level: number }) {
   return (
-    <div className="flex items-center gap-2 bg-orange-500/20 border border-orange-500/40 px-3 py-1 rounded-full">
-      <div className="w-2 h-2 bg-orange-500 rounded-full" />
-      <span className="text-orange-400 font-semibold text-sm">
+    <div className="flex items-center gap-2 bg-amber-500/20 border border-amber-400/40 px-3 py-1 rounded-full">
+      <div className="w-2 h-2 bg-amber-400 rounded-full" />
+      <span className="text-amber-400 font-semibold text-sm">
         LVL {level}
       </span>
     </div>
@@ -57,7 +59,9 @@ function FaceitBadge({ level }: { level: number }) {
 export default function TeamSite() {
   return (
     <div className="min-h-screen bg-black text-white relative overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(0,120,255,0.15),transparent_40%),radial-gradient(circle_at_80%_80%,rgba(0,255,200,0.1),transparent_40%)]" />
+
+      {/* Background */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(0,255,200,0.15),transparent_40%),radial-gradient(circle_at_80%_80%,rgba(0,255,200,0.08),transparent_40%)]" />
 
       {/* SIDE TELEGRAM */}
       <motion.a
@@ -68,9 +72,9 @@ export default function TeamSite() {
         target="_blank"
         className="hidden md:block fixed right-0 top-1/2 -translate-y-1/2 z-50"
       >
-        <div className="flex items-center gap-3 bg-gradient-to-r from-cyan-500 to-blue-500 px-5 py-4 rounded-l-2xl shadow-2xl">
-          <Send className="w-5 h-5 text-white" />
-          <span className="font-semibold text-white">Связь</span>
+        <div className="flex items-center gap-3 bg-cyan-500 px-5 py-4 rounded-l-2xl shadow-[0_0_25px_rgba(0,255,200,0.5)] hover:bg-cyan-400 transition">
+          <Send className="w-5 h-5 text-black" />
+          <span className="font-semibold text-black">Связь</span>
         </div>
       </motion.a>
 
@@ -79,7 +83,7 @@ export default function TeamSite() {
         {/* HERO */}
         <section>
           <h1 className="text-6xl font-extrabold">
-            1337 <span className="text-blue-500">Team</span>
+            1337 <span className="text-cyan-400">Team</span>
           </h1>
           <p className="text-lg opacity-70 mt-4">
             Competitive CS2 Roster
@@ -89,17 +93,17 @@ export default function TeamSite() {
         {/* TOURNAMENTS */}
         <section className="space-y-10">
           <h2 className="text-4xl font-bold flex items-center gap-3">
-            <Trophy /> Турниры
+            <Trophy className="text-cyan-400" /> Турниры
           </h2>
 
           <div className="grid md:grid-cols-2 gap-6">
 
-            <div className="rounded-3xl bg-white/5 p-8 backdrop-blur-xl border border-white/10 space-y-4">
-              <div className="text-2xl font-bold">RIEM RIO</div>
+            <div className="rounded-3xl bg-white/5 p-8 backdrop-blur-xl border border-cyan-500/20 space-y-4 hover:border-cyan-400 transition">
+              <div className="text-2xl font-bold text-cyan-400">RIEM RIO</div>
               <Countdown targetDate="2026-03-07T18:00:00" />
             </div>
 
-            <div className="rounded-3xl bg-white/5 p-8 backdrop-blur-xl border border-cyan-500/20 space-y-4">
+            <div className="rounded-3xl bg-white/5 p-8 backdrop-blur-xl border border-cyan-500/20 space-y-4 hover:border-cyan-400 transition">
               <div className="text-2xl font-bold text-cyan-400">
                 W StarLadder
               </div>
@@ -112,7 +116,7 @@ export default function TeamSite() {
         {/* MAIN ROSTER */}
         <section className="space-y-10">
           <h2 className="text-4xl font-bold flex items-center gap-3">
-            <Users /> Основной состав
+            <Users className="text-cyan-400" /> Основной состав
           </h2>
 
           <div className="grid md:grid-cols-3 gap-6">
@@ -126,7 +130,7 @@ export default function TeamSite() {
               <motion.div
                 key={player.nick}
                 whileHover={{ scale: 1.05 }}
-                className="rounded-3xl bg-gradient-to-br from-white/5 to-white/10 p-6 backdrop-blur-xl shadow-xl border border-white/10 space-y-3"
+                className="rounded-3xl bg-white/5 p-6 backdrop-blur-xl shadow-xl border border-cyan-500/20 space-y-3 hover:border-cyan-400 transition"
               >
                 <div className="text-2xl font-bold">{player.nick}</div>
                 <FaceitBadge level={player.lvl} />
@@ -138,7 +142,7 @@ export default function TeamSite() {
 
         {/* ACADEMY */}
         <section className="space-y-10">
-          <h2 className="text-4xl font-bold">
+          <h2 className="text-4xl font-bold text-cyan-400">
             Academy
           </h2>
 
@@ -152,7 +156,7 @@ export default function TeamSite() {
             ].map((player) => (
               <div
                 key={player.nick}
-                className="rounded-3xl bg-gradient-to-br from-cyan-500/10 to-blue-500/10 p-6 backdrop-blur-xl border border-cyan-500/20"
+                className="rounded-3xl bg-white/5 p-6 backdrop-blur-xl border border-cyan-500/20 hover:border-cyan-400 transition"
               >
                 <div className="text-2xl font-bold">{player.nick}</div>
                 <div className="opacity-60 mt-2">{player.role}</div>
@@ -161,12 +165,45 @@ export default function TeamSite() {
           </div>
         </section>
 
+        {/* PARTNERSHIP */}
+        <section className="space-y-10">
+          <h2 className="text-4xl font-bold text-cyan-400">
+            Партнёрство
+          </h2>
+
+          <div className="rounded-3xl bg-gradient-to-br from-cyan-500/10 to-cyan-500/5 p-10 backdrop-blur-xl border border-cyan-500/30 space-y-6">
+
+            <div className="text-2xl font-bold text-cyan-400">
+              🎁 БОНУСЫ ПО ПРОМОКОДУ 1337CS2
+            </div>
+
+            <ul className="space-y-3 text-lg">
+              <li>— 500% бонус к первым 4 депозитам</li>
+              <li>— 500 фриспинов на первые четыре депозита</li>
+              <li>— и другие бонусы для комфортного старта</li>
+            </ul>
+
+            <a
+              href="https://1wfetj.life/v3/landing-page/cyber?p=2gci"
+              target="_blank"
+              className="inline-block mt-6 bg-cyan-500 hover:bg-cyan-400 transition px-6 py-3 rounded-xl font-bold text-black shadow-[0_0_20px_rgba(0,255,200,0.4)]"
+            >
+              Активировать бонус
+            </a>
+
+          </div>
+        </section>
+
         {/* FOOTER */}
         <section className="mt-24 border-t border-white/10 pt-8">
           <div className="flex justify-center gap-8 text-lg">
             <a href="https://www.twitch.tv/f0w4rdd" target="_blank">Twitch</a>
             <a href="https://t.me/team1337cs2" target="_blank">Telegram</a>
-            <a href="https://1wfetj.life/v3/landing-page/cyber?p=2gci" target="_blank" className="text-yellow-400 font-semibold">
+            <a
+              href="https://1wfetj.life/v3/landing-page/cyber?p=2gci"
+              target="_blank"
+              className="text-cyan-400 font-semibold"
+            >
               1WIN
             </a>
           </div>
