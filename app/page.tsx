@@ -97,6 +97,44 @@ function TournamentCard({
   );
 }
 
+function PlayerCard({
+  nick,
+  role,
+  lvl,
+  kd,
+}: {
+  nick: string;
+  role: string;
+  lvl: number;
+  kd: string;
+}) {
+  return (
+    <motion.div
+      whileHover={{ scale: 1.05 }}
+      className="group relative rounded-3xl bg-white/5 p-6 backdrop-blur-xl border border-cyan-500/20 space-y-3 hover:border-cyan-400 transition overflow-hidden"
+    >
+      <div className="text-2xl font-bold">{nick}</div>
+      <FaceitBadge level={lvl} />
+      <div className="opacity-60">{role}</div>
+
+      {/* Hover Overlay */}
+      <div className="absolute inset-0 bg-black/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
+        <div className="text-center">
+          <div className="text-cyan-400 text-sm uppercase opacity-60">
+            K/D за последние игры
+          </div>
+          <div className="text-4xl font-extrabold text-amber-400">
+            {kd}
+          </div>
+          <div className="mt-2">
+            <FaceitBadge level={lvl} />
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
 export default function TeamSite() {
   const players = [
     { nick: "amullet 🇺🇦", role: "Rifler", lvl: 8, kd: "1.35" },
@@ -108,7 +146,6 @@ export default function TeamSite() {
 
   return (
     <div className="min-h-screen bg-black text-white relative overflow-hidden">
-
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(0,255,200,0.15),transparent_40%),radial-gradient(circle_at_80%_80%,rgba(0,255,200,0.08),transparent_40%)]" />
 
       <div className="relative z-10 max-w-6xl mx-auto px-6 py-20 space-y-24">
@@ -118,9 +155,6 @@ export default function TeamSite() {
           <h1 className="text-6xl font-extrabold">
             1337 <span className="text-cyan-400">Team</span>
           </h1>
-          <p className="text-lg opacity-70 mt-4">
-            Competitive CS2 Roster
-          </p>
         </section>
 
         {/* TOURNAMENTS */}
@@ -150,33 +184,7 @@ export default function TeamSite() {
 
           <div className="grid md:grid-cols-3 gap-6">
             {players.map((player) => (
-              <div
-                key={player.nick}
-                className="group perspective"
-              >
-                <div className="relative h-48 w-full transition-transform duration-500 transform-style-preserve-3d group-hover:rotate-y-180">
-
-                  {/* FRONT */}
-                  <div className="absolute inset-0 rounded-3xl bg-white/5 p-6 border border-cyan-500/20 space-y-3 backface-hidden">
-                    <div className="text-2xl font-bold">{player.nick}</div>
-                    <FaceitBadge level={player.lvl} />
-                    <div className="opacity-60">{player.role}</div>
-                  </div>
-
-                  {/* BACK */}
-                  <div className="absolute inset-0 rounded-3xl bg-black flex items-center justify-center border border-amber-400/40 rotate-y-180 backface-hidden">
-                    <div className="text-center">
-                      <div className="text-cyan-400 text-sm uppercase opacity-60">
-                        K/D за последние игры
-                      </div>
-                      <div className="text-4xl font-extrabold text-amber-400">
-                        {player.kd}
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
-              </div>
+              <PlayerCard key={player.nick} {...player} />
             ))}
           </div>
         </section>
