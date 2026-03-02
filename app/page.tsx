@@ -45,17 +45,6 @@ function Countdown({ targetDate }: { targetDate: string }) {
   );
 }
 
-function FaceitBadge({ level }: { level: number }) {
-  return (
-    <div className="flex items-center gap-2 bg-amber-500/20 border border-amber-400/40 px-3 py-1 rounded-full">
-      <div className="w-2 h-2 bg-amber-400 rounded-full" />
-      <span className="text-amber-400 font-semibold text-sm">
-        LVL {level}
-      </span>
-    </div>
-  );
-}
-
 function TournamentCard({
   title,
   targetDate,
@@ -73,10 +62,7 @@ function TournamentCard({
       onClick={() => group && setOpen(!open)}
       className="cursor-pointer rounded-3xl bg-white/5 p-8 backdrop-blur-xl border border-cyan-500/20 space-y-4 hover:border-cyan-400 transition"
     >
-      <div className="text-2xl font-bold text-cyan-400">
-        {title}
-      </div>
-
+      <div className="text-2xl font-bold text-cyan-400">{title}</div>
       <Countdown targetDate={targetDate} />
 
       {group && open && (
@@ -86,10 +72,7 @@ function TournamentCard({
           transition={{ duration: 0.3 }}
           className="pt-4 border-t border-white/10 space-y-2"
         >
-          <div className="text-sm uppercase opacity-50">
-            Группа A
-          </div>
-
+          <div className="text-sm uppercase opacity-50">Группа A</div>
           {group.map((team) => (
             <div
               key={team}
@@ -105,6 +88,14 @@ function TournamentCard({
 }
 
 export default function TeamSite() {
+  const players = [
+    { nick: "amullet 🇺🇦", role: "Rifler", kd: "1.35" },
+    { nick: "s1per 🇷🇺", role: "Rifler", kd: "1.26" },
+    { nick: "xinxed 🇷🇺", role: "Captain", kd: "1.12" },
+    { nick: "kironixx 🇷🇺", role: "Rifler", kd: "1.15" },
+    { nick: "for4ward 🇷🇺", role: "AWP", kd: "1.05" },
+  ];
+
   return (
     <div className="min-h-screen bg-black text-white relative overflow-hidden">
 
@@ -132,13 +123,8 @@ export default function TeamSite() {
             <TournamentCard
               title="RIEM RIO"
               targetDate="2026-03-07T18:00:00"
-              group={[
-                "1337 Team",
-                "Xtreme Gaming",
-                "DarkPulse"
-              ]}
+              group={["1337 Team", "Xtreme Gaming", "DarkPulse"]}
             />
-
             <TournamentCard
               title="W StarLadder"
               targetDate="2026-03-07T18:00:00"
@@ -153,47 +139,27 @@ export default function TeamSite() {
           </h2>
 
           <div className="grid md:grid-cols-3 gap-6">
-            {[
-              { nick: "amullet 🇺🇦", lvl: 8, role: "Rifler" },
-              { nick: "xinxed 🇷🇺", lvl: 9, role: "Captain" },
-              { nick: "kironixx 🇷🇺", lvl: 8, role: "Rifler" },
-              { nick: "s1per 🇷🇺", lvl: 8, role: "Rifler" },
-              { nick: "for4ward 🇷🇺", lvl: 8, role: "AWP" },
-            ].map((player) => (
+            {players.map((player) => (
               <motion.div
                 key={player.nick}
                 whileHover={{ scale: 1.05 }}
-                className="rounded-3xl bg-white/5 p-6 backdrop-blur-xl border border-cyan-500/20 space-y-3 hover:border-cyan-400 transition"
+                className="group relative rounded-3xl bg-white/5 p-6 backdrop-blur-xl border border-cyan-500/20 space-y-3 hover:border-cyan-400 transition overflow-hidden"
               >
                 <div className="text-2xl font-bold">{player.nick}</div>
-                <FaceitBadge level={player.lvl} />
                 <div className="opacity-60">{player.role}</div>
+
+                {/* Hover K/D */}
+                <div className="absolute inset-0 bg-black/90 flex items-center justify-center opacity-0 group-hover:opacity-100 transition duration-300">
+                  <div className="text-center">
+                    <div className="text-cyan-400 text-sm uppercase opacity-60">
+                      K/D за последние игры
+                    </div>
+                    <div className="text-4xl font-extrabold text-amber-400">
+                      {player.kd}
+                    </div>
+                  </div>
+                </div>
               </motion.div>
-            ))}
-          </div>
-        </section>
-
-        {/* ACADEMY */}
-        <section className="space-y-10">
-          <h2 className="text-4xl font-bold text-cyan-400">
-            Academy
-          </h2>
-
-          <div className="grid md:grid-cols-3 gap-6">
-            {[
-              { nick: "LeV1sY", role: "Entry" },
-              { nick: "Mezagy", role: "Rifler" },
-              { nick: "Dezmoral", role: "AWP" },
-              { nick: "TwiZzy", role: "Lurker" },
-              { nick: "Klimen1245", role: "IGL" },
-            ].map((player) => (
-              <div
-                key={player.nick}
-                className="rounded-3xl bg-white/5 p-6 backdrop-blur-xl border border-cyan-500/20 hover:border-cyan-400 transition"
-              >
-                <div className="text-2xl font-bold">{player.nick}</div>
-                <div className="opacity-60 mt-2">{player.role}</div>
-              </div>
             ))}
           </div>
         </section>
@@ -205,7 +171,6 @@ export default function TeamSite() {
           </h2>
 
           <div className="rounded-3xl bg-gradient-to-br from-cyan-500/10 to-cyan-500/5 p-10 backdrop-blur-xl border border-cyan-500/30 space-y-6">
-
             <div className="text-2xl font-bold text-cyan-400">
               🎁 БОНУСЫ ПО ПРОМОКОДУ 1337CS2
             </div>
@@ -215,14 +180,6 @@ export default function TeamSite() {
               <li>— 500 фриспинов на первые четыре депозита</li>
               <li>— и другие бонусы для комфортного старта</li>
             </ul>
-
-            <a
-              href="https://1wfetj.life/v3/landing-page/cyber?p=2gci"
-              target="_blank"
-              className="inline-block mt-6 bg-cyan-500 hover:bg-cyan-400 transition px-6 py-3 rounded-xl font-bold text-black"
-            >
-              Активировать бонус
-            </a>
           </div>
         </section>
 
@@ -234,7 +191,6 @@ export default function TeamSite() {
 
           <div className="grid md:grid-cols-2 gap-6">
 
-            {/* Трофеи */}
             <div className="rounded-3xl bg-white/5 p-6 border border-cyan-500/20 space-y-4">
               <div className="flex items-center gap-2 text-xl font-bold">
                 <Trophy className="text-amber-400" /> Трофеи
@@ -246,7 +202,6 @@ export default function TeamSite() {
               </ul>
             </div>
 
-            {/* Лучшие игроки */}
             <div className="rounded-3xl bg-gradient-to-br from-amber-500/10 to-cyan-500/10 p-6 border border-amber-400/40 space-y-4">
               <div className="flex items-center gap-2 text-xl font-bold text-amber-400">
                 <Star /> Лучшие игроки команды
