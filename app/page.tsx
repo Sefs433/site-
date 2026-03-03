@@ -2,68 +2,88 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Users, Trophy, Crown, Handshake } from "lucide-react";
+
+const tournamentDate = "2026-03-07T18:00:00";
 
 function Countdown({ targetDate }: { targetDate: string }) {
-  const calculateTimeLeft = () => {
-    const difference = +new Date(targetDate) - +new Date();
-    let timeLeft: any = {};
+  const calculate = () => {
+    const diff = +new Date(targetDate) - +new Date();
+    if (diff <= 0) return null;
 
-    if (difference > 0) {
-      timeLeft = {
-        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-        minutes: Math.floor((difference / 1000 / 60) % 60),
-        seconds: Math.floor((difference / 1000) % 60),
-      };
-    }
-    return timeLeft;
+    return {
+      days: Math.floor(diff / (1000 * 60 * 60 * 24)),
+      hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
+      minutes: Math.floor((diff / 1000 / 60) % 60),
+      seconds: Math.floor((diff / 1000) % 60),
+    };
   };
 
-  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+  const [time, setTime] = useState<any>(calculate());
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeLeft(calculateTimeLeft());
-    }, 1000);
-    return () => clearInterval(timer);
+    const i = setInterval(() => setTime(calculate()), 1000);
+    return () => clearInterval(i);
   }, []);
 
+  if (!time) return null;
+
   return (
-    <div className="flex gap-6 font-mono text-sm mt-2">
-      {Object.entries(timeLeft).map(([label, value]) => (
-        <div key={label}>
+    <div className="flex gap-4 font-mono mt-3">
+      {Object.entries(time).map(([k, v]) => (
+        <div key={k}>
           <span className="text-orange-500 font-bold text-lg">
-            {String(value).padStart(2, "0")}
+            {String(v).padStart(2, "0")}
           </span>{" "}
-          <span className="text-neutral-500 uppercase">{label}</span>
+          <span className="text-neutral-500 text-xs uppercase">{k}</span>
         </div>
       ))}
     </div>
   );
 }
 
+function LiveIndicator({ targetDate }: { targetDate: string }) {
+  const [live, setLive] = useState(false);
+
+  useEffect(() => {
+    const check = () => {
+      setLive(new Date() >= new Date(targetDate));
+    };
+    check();
+    const i = setInterval(check, 1000);
+    return () => clearInterval(i);
+  }, []);
+
+  if (!live) return null;
+
+  return (
+    <div className="flex items-center gap-2 text-red-500 font-bold mt-2 animate-pulse">
+      <span className="w-3 h-3 bg-red-500 rounded-full"></span>
+      LIVE NOW
+    </div>
+  );
+}
+
 function PlayerCard({ nick, role, lvl, kd }: any) {
-  const [hovered, setHovered] = useState(false);
+  const [hover, setHover] = useState(false);
 
   return (
     <motion.div
       whileHover={{ scale: 1.05 }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      className="bg-[#111] border border-neutral-800 p-6 space-y-3"
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      className="bg-[#111] border border-neutral-800 p-6"
     >
       <div className="text-2xl font-extrabold">{nick}</div>
       <div className="text-neutral-400 text-sm">{role}</div>
       <div className="text-orange-500 font-bold text-sm">LVL {lvl}</div>
 
       <AnimatePresence>
-        {hovered && (
+        {hover && (
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className="text-orange-400 font-bold"
+            className="text-orange-400 font-bold mt-2"
           >
             K/D: {kd}
           </motion.div>
@@ -85,36 +105,27 @@ export default function TeamSite() {
   ];
 
   return (
-    <div className="relative min-h-screen text-white overflow-hidden bg-black">
+    <div className="min-h-screen bg-black text-white relative overflow-hidden">
 
-      {/* 🔥 АНИМИРОВАННЫЙ ФОН */}
+      {/* Esports animated background */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,120,0,0.15),transparent_40%),radial-gradient(circle_at_80%_80%,rgba(255,0,120,0.08),transparent_50%)] animate-pulse" />
-      <div className="absolute inset-0 opacity-[0.03]"
-        style={{
-          backgroundImage:
-            "repeating-linear-gradient(45deg, rgba(255,255,255,0.2) 0px, rgba(255,255,255,0.2) 1px, transparent 1px, transparent 4px)",
-        }}
-      />
-
       <div className="relative z-10 max-w-6xl mx-auto px-6 py-24">
 
         {/* HERO */}
         <motion.div
-          initial={{ opacity: 0, y: -30 }}
+          initial={{ opacity: 0, y: -40 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-16"
+          className="text-center mb-20"
         >
-          <h1 className="text-8xl font-black tracking-tight">
-            1337
-          </h1>
-          <p className="text-xl text-neutral-400 mt-4">
-            Built to dominate the server.
+          <h1 className="text-8xl font-black">1337</h1>
+          <p className="text-neutral-400 mt-4 text-xl">
+            Built to dominate. Made to win.
           </p>
         </motion.div>
 
         {/* NAV */}
         <div className="flex justify-center gap-6 mb-16 flex-wrap">
-          {["roster", "tournaments", "partners", "hall"].map((item) => (
+          {["roster","tournaments","partners","hall"].map((item) => (
             <button
               key={item}
               onClick={() => setSection(item)}
@@ -132,8 +143,8 @@ export default function TeamSite() {
           ))}
         </div>
 
-        {/* SECTIONS */}
         <AnimatePresence mode="wait">
+
           {section === "roster" && (
             <motion.div
               key="roster"
@@ -142,9 +153,7 @@ export default function TeamSite() {
               exit={{ opacity: 0 }}
               className="grid md:grid-cols-3 gap-8"
             >
-              {players.map((p) => (
-                <PlayerCard key={p.nick} {...p} />
-              ))}
+              {players.map(p => <PlayerCard key={p.nick} {...p} />)}
             </motion.div>
           )}
 
@@ -154,23 +163,16 @@ export default function TeamSite() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
-              className="space-y-10"
+              className="space-y-12"
             >
-              <div className="bg-[#111] border border-neutral-800 p-8">
-                <h3 className="text-2xl font-bold text-orange-500">
-                  RIEM RIO
-                </h3>
-                <div>7 марта 2026 — 18:00</div>
-                <Countdown targetDate="2026-03-07T18:00:00" />
-              </div>
-
-              <div className="bg-[#111] border border-neutral-800 p-8">
-                <h3 className="text-2xl font-bold text-orange-500">
-                  W StarLadder
-                </h3>
-                <div>7 марта 2026 — 18:00</div>
-                <Countdown targetDate="2026-03-07T18:00:00" />
-              </div>
+              {["RIEM RIO","W StarLadder"].map(name => (
+                <div key={name} className="bg-[#111] border border-neutral-800 p-8">
+                  <h3 className="text-2xl font-bold text-orange-500">{name}</h3>
+                  <div>7 марта 2026 — 18:00</div>
+                  <LiveIndicator targetDate={tournamentDate}/>
+                  <Countdown targetDate={tournamentDate}/>
+                </div>
+              ))}
             </motion.div>
           )}
 
@@ -182,11 +184,9 @@ export default function TeamSite() {
               exit={{ opacity: 0 }}
               className="bg-[#111] border border-neutral-800 p-10 space-y-6"
             >
-              <h2 className="text-3xl font-bold text-orange-500">
-                1WIN
-              </h2>
+              <h2 className="text-3xl font-bold text-orange-500">1WIN</h2>
 
-              <div className="text-lg font-bold">
+              <div className="font-bold text-lg">
                 🎁 БОНУСЫ ПО ПРОМОКОДУ 1337CS2
               </div>
 
@@ -218,6 +218,7 @@ export default function TeamSite() {
               <div>Лучшие игроки: s1per / fonely</div>
             </motion.div>
           )}
+
         </AnimatePresence>
 
       </div>
