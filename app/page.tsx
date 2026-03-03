@@ -132,8 +132,8 @@ export default function TeamSite() {
               <h3 className="text-xl font-bold text-orange-500 mb-2">
                 W StarLadder
               </h3>
-              <div>15 апреля 2026 — 18:00</div>
-              <Countdown targetDate="2026-04-15T18:00:00" />
+              <div>7 марта 2026 — 18:00</div>
+              <Countdown targetDate="2026-03-07T18:00:00" />
               <div className="mt-4 text-neutral-400">
                 Соперники будут объявлены позже
               </div>
