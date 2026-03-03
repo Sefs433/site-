@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import { Users, Trophy, Crown, Handshake } from "lucide-react";
 
 function Countdown({ targetDate }: { targetDate: string }) {
@@ -43,102 +43,116 @@ function Countdown({ targetDate }: { targetDate: string }) {
 }
 
 export default function TeamSite() {
-  const [showNav, setShowNav] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setShowNav(window.scrollY > 300);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const scrollTo = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-  };
+  const [activeSection, setActiveSection] = useState<string | null>(null);
 
   return (
-    <div className="relative min-h-screen text-white overflow-x-hidden bg-black">
+    <div className="min-h-screen bg-black text-white relative overflow-hidden">
 
-      {/* 🔥 НОВЫЙ ЖИВОЙ ФОН */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_10%_20%,rgba(255,120,0,0.12),transparent_40%),radial-gradient(circle_at_90%_80%,rgba(255,0,100,0.08),transparent_50%)]" />
-      <div className="absolute inset-0 opacity-[0.04]"
-        style={{
-          backgroundImage:
-            "repeating-linear-gradient(45deg, rgba(255,255,255,0.2) 0px, rgba(255,255,255,0.2) 1px, transparent 1px, transparent 3px)",
-        }}
-      />
+      {/* фон */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,100,0,0.12),transparent_40%),radial-gradient(circle_at_80%_80%,rgba(255,0,100,0.08),transparent_50%)]" />
 
-      <div className="relative z-10 max-w-6xl mx-auto px-6 py-24 space-y-40">
+      <div className="relative z-10 max-w-5xl mx-auto px-6 py-24">
 
         {/* HERO */}
-        <section>
-          <h1 className="text-7xl font-black tracking-tight">
-            1337 TEAM
+        <div className="text-center mb-20">
+          <h1 className="text-8xl font-black tracking-tight">
+            1337
           </h1>
-        </section>
+          <p className="text-xl text-neutral-400 mt-6">
+            Built to dominate. Made to win.
+          </p>
+        </div>
 
-        {/* ТУРНИРЫ */}
-        <section id="tournaments" className="space-y-8">
-          <h2 className="text-4xl font-bold flex items-center gap-3">
-            <Trophy /> Турниры
-          </h2>
+        {/* КНОПКИ */}
+        <div className="flex flex-wrap justify-center gap-6 mb-16">
+          <button
+            onClick={() => setActiveSection("roster")}
+            className="px-6 py-3 bg-orange-500 text-black font-bold hover:opacity-80 transition"
+          >
+            Состав
+          </button>
 
-          <div className="grid md:grid-cols-2 gap-8">
+          <button
+            onClick={() => setActiveSection("tournaments")}
+            className="px-6 py-3 bg-orange-500 text-black font-bold hover:opacity-80 transition"
+          >
+            Турниры
+          </button>
 
-            <div className="p-8 bg-[#111] border border-neutral-800 space-y-6">
-              <div className="text-2xl font-bold text-orange-500">
+          <button
+            onClick={() => setActiveSection("partners")}
+            className="px-6 py-3 bg-orange-500 text-black font-bold hover:opacity-80 transition"
+          >
+            Партнёрство
+          </button>
+
+          <button
+            onClick={() => setActiveSection("hall")}
+            className="px-6 py-3 bg-orange-500 text-black font-bold hover:opacity-80 transition"
+          >
+            Зал славы
+          </button>
+        </div>
+
+        {/* РАЗДЕЛЫ */}
+
+        {activeSection === "roster" && (
+          <div className="p-10 bg-[#111] border border-neutral-800 space-y-4">
+            <h2 className="text-3xl font-bold flex items-center gap-3">
+              <Users /> Основной состав
+            </h2>
+            <ul className="space-y-2">
+              <li>amullet — LVL 8 — K/D 1.35</li>
+              <li>s1per — LVL 8 — K/D 1.26</li>
+              <li>xinxed — LVL 9 — K/D 1.12</li>
+              <li>kironixx — LVL 8 — K/D 1.15</li>
+              <li>for4ward — LVL 8 — K/D 1.05</li>
+            </ul>
+          </div>
+        )}
+
+        {activeSection === "tournaments" && (
+          <div className="p-10 bg-[#111] border border-neutral-800 space-y-10">
+            <h2 className="text-3xl font-bold flex items-center gap-3">
+              <Trophy /> Турниры
+            </h2>
+
+            <div>
+              <h3 className="text-xl font-bold text-orange-500 mb-2">
                 RIEM RIO
-              </div>
+              </h3>
               <div>7 марта 2026 — 18:00</div>
               <Countdown targetDate="2026-03-07T18:00:00" />
-              <div className="text-neutral-400">
+              <div className="mt-4 text-neutral-400">
                 Группа A: 1337 Team / Xtreme Gaming / DarkPulse
               </div>
             </div>
 
-            <div className="p-8 bg-[#111] border border-neutral-800 space-y-6">
-              <div className="text-2xl font-bold text-orange-500">
+            <div>
+              <h3 className="text-xl font-bold text-orange-500 mb-2">
                 W StarLadder
-              </div>
+              </h3>
               <div>15 апреля 2026 — 18:00</div>
               <Countdown targetDate="2026-04-15T18:00:00" />
-              <div className="text-neutral-400">
+              <div className="mt-4 text-neutral-400">
                 Соперники будут объявлены позже
               </div>
             </div>
-
           </div>
-        </section>
+        )}
 
-        {/* СОСТАВ */}
-        <section id="roster" className="space-y-8">
-          <h2 className="text-4xl font-bold flex items-center gap-3">
-            <Users /> Состав
-          </h2>
-          <div className="p-8 bg-[#111] border border-neutral-800">
-            Основной состав команды 1337.
-          </div>
-        </section>
-
-        {/* ПАРТНЁРЫ */}
-        <section id="partners" className="space-y-8">
-          <h2 className="text-4xl font-bold flex items-center gap-3">
-            <Handshake /> Партнёры
-          </h2>
-
+        {activeSection === "partners" && (
           <div className="p-10 bg-[#111] border border-neutral-800 space-y-6">
+            <h2 className="text-3xl font-bold flex items-center gap-3">
+              <Handshake /> Партнёры
+            </h2>
 
-            <div className="text-2xl font-bold text-orange-500">
+            <div className="text-xl font-bold text-orange-500">
               1WIN
             </div>
 
-            <div className="text-lg font-bold">
-              🎁 БОНУСЫ ПО ПРОМОКОДУ 1337CS2
-            </div>
-
             <div>
-              При использовании промокода <span className="text-orange-500 font-bold">1337CS2</span> ты получаешь:
+              🎁 БОНУСЫ ПО ПРОМОКОДУ <span className="text-orange-500 font-bold">1337CS2</span>
             </div>
 
             <ul className="space-y-2">
@@ -150,45 +164,26 @@ export default function TeamSite() {
             <a
               href="https://1wfetj.life/v3/landing-page/cyber?p=2gci"
               target="_blank"
-              className="inline-block px-6 py-3 bg-orange-500 text-black font-bold hover:opacity-80 transition"
+              className="inline-block mt-4 px-6 py-3 bg-orange-500 text-black font-bold hover:opacity-80 transition"
             >
-              ПЕРЕЙТИ НА 1WIN
+              Перейти на 1WIN
             </a>
-
           </div>
-        </section>
+        )}
 
-        {/* ЗАЛ СЛАВЫ */}
-        <section id="hall" className="space-y-8">
-          <h2 className="text-4xl font-bold flex items-center gap-3">
-            <Crown /> Зал славы
-          </h2>
-
-          <div className="p-8 bg-[#111] border border-neutral-800">
-            🥉 3 место — W Cup 2
+        {activeSection === "hall" && (
+          <div className="p-10 bg-[#111] border border-neutral-800 space-y-4">
+            <h2 className="text-3xl font-bold flex items-center gap-3">
+              <Crown /> Зал славы
+            </h2>
+            <ul>
+              <li>🥉 3 место — W Cup 2</li>
+              <li>Лучшие игроки: s1per / fonely</li>
+            </ul>
           </div>
-        </section>
+        )}
 
       </div>
-
-      {/* 🔘 ПЛАВАЮЩЕЕ МЕНЮ */}
-      {showNav && (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-[#111] border border-neutral-800 px-6 py-3 flex gap-6 backdrop-blur-md">
-          <button onClick={() => scrollTo("tournaments")} className="hover:text-orange-500">
-            Турниры
-          </button>
-          <button onClick={() => scrollTo("roster")} className="hover:text-orange-500">
-            Состав
-          </button>
-          <button onClick={() => scrollTo("partners")} className="hover:text-orange-500">
-            Партнёрство
-          </button>
-          <button onClick={() => scrollTo("hall")} className="hover:text-orange-500">
-            Зал славы
-          </button>
-        </div>
-      )}
-
     </div>
   );
 }
