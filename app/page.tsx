@@ -48,6 +48,7 @@ function LiveIndicator({ targetDate }: { targetDate: string }) {
     const check = () => {
       setLive(new Date() >= new Date(targetDate));
     };
+
     check();
     const i = setInterval(check, 1000);
     return () => clearInterval(i);
@@ -77,6 +78,7 @@ function PlayerCard({ nick, role, lvl }: any) {
 }
 
 export default function TeamSite() {
+
   const [section, setSection] = useState("roster");
 
   const players = [
@@ -109,24 +111,35 @@ export default function TeamSite() {
 
         {/* NAVIGATION */}
         <div className="flex justify-center gap-6 mb-16 flex-wrap">
-          {[
-            { id: "roster", name: "Состав" },
-            { id: "tournaments", name: "Турниры" },
-            { id: "partners", name: "Партнёрство" },
-            { id: "hall", name: "Зал славы" },
-          ].map((item) => (
-            <button
-              key={item.id}
-              onClick={() => setSection(item.id)}
-              className={`px-6 py-3 font-bold transition ${
-                section === item.id
-                  ? "bg-orange-500 text-black"
-                  : "bg-[#111] border border-neutral-800 hover:border-orange-500"
-              }`}
-            >
-              {item.name}
-            </button>
-          ))}
+
+          <button
+            onClick={() => setSection("roster")}
+            className="px-6 py-3 bg-[#111] border border-neutral-800 hover:border-orange-500"
+          >
+            Состав
+          </button>
+
+          <button
+            onClick={() => setSection("tournaments")}
+            className="px-6 py-3 bg-[#111] border border-neutral-800 hover:border-orange-500"
+          >
+            Турниры
+          </button>
+
+          <button
+            onClick={() => setSection("partners")}
+            className="px-6 py-3 bg-[#111] border border-neutral-800 hover:border-orange-500"
+          >
+            Партнёрство
+          </button>
+
+          <button
+            onClick={() => setSection("hall")}
+            className="px-6 py-3 bg-[#111] border border-neutral-800 hover:border-orange-500"
+          >
+            Зал славы
+          </button>
+
         </div>
 
         <AnimatePresence mode="wait">
@@ -148,6 +161,7 @@ export default function TeamSite() {
 
               {/* BENCH */}
               <div className="mt-12">
+
                 <h3 className="text-xl font-bold text-neutral-400 mb-4">
                   BENCH
                 </h3>
@@ -156,6 +170,7 @@ export default function TeamSite() {
                   <div>Hulsey — LVL 7 | Rifler</div>
                   <div>Winda — LVL 8 | Rifler</div>
                 </div>
+
               </div>
 
             </motion.div>
@@ -171,23 +186,51 @@ export default function TeamSite() {
               className="space-y-10"
             >
 
-              {["RIEM RIO", "W StarLadder"].map((name) => (
-                <div key={name} className="bg-[#111] border border-neutral-800 p-8">
-                  <h3 className="text-2xl font-bold text-orange-500">{name}</h3>
+              {/* RIEM RIO */}
+              <div className="bg-[#111] border border-neutral-800 p-8">
 
-                  <div>7 марта 2026 — 18:00</div>
+                <h3 className="text-2xl font-bold text-orange-500">
+                  RIEM RIO
+                </h3>
 
-                  <LiveIndicator targetDate={tournamentDate} />
-                  <Countdown targetDate={tournamentDate} />
+                <div>7 марта 2026 — 18:00</div>
 
-                  {name === "RIEM RIO" && (
-                    <div className="text-neutral-400 mt-4">
-                      Group A: 1337 Team / Xtreme Gaming / DarkPulse
-                    </div>
-                  )}
+                <LiveIndicator targetDate={tournamentDate} />
+                <Countdown targetDate={tournamentDate} />
 
+                <div className="text-neutral-400 mt-4">
+                  Group A: 1337 Team / Xtreme Gaming / DarkPulse
                 </div>
-              ))}
+
+              </div>
+
+              {/* W StarLadder */}
+              <div className="bg-[#111] border border-neutral-800 p-8">
+
+                <h3 className="text-2xl font-bold text-orange-500">
+                  W StarLadder
+                </h3>
+
+                <div className="mt-2 text-neutral-300">
+                  Первый матч
+                </div>
+
+                <div className="text-lg font-bold">
+                  1337 Team vs Evo Academy
+                </div>
+
+                <div className="text-neutral-400">
+                  7 марта 2026 — 18:00
+                </div>
+
+                <LiveIndicator targetDate={tournamentDate} />
+                <Countdown targetDate={tournamentDate} />
+
+                <div className="text-neutral-500 text-sm mt-4">
+                  Пики карт будут объявлены позже
+                </div>
+
+              </div>
 
             </motion.div>
           )}
@@ -202,7 +245,9 @@ export default function TeamSite() {
               className="bg-[#111] border border-neutral-800 p-10 space-y-6"
             >
 
-              <h2 className="text-3xl font-bold text-orange-500">1WIN</h2>
+              <h2 className="text-3xl font-bold text-orange-500">
+                1WIN
+              </h2>
 
               <div className="font-bold text-lg">
                 🎁 БОНУСЫ ПО ПРОМОКОДУ 1337CS2
@@ -234,8 +279,10 @@ export default function TeamSite() {
               exit={{ opacity: 0 }}
               className="bg-[#111] border border-neutral-800 p-10 space-y-4"
             >
+
               <div>🥉 3 место — W Cup 2</div>
               <div>Лучшие игроки: s1per / fonely</div>
+
             </motion.div>
           )}
 
