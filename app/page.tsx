@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 const tournamentDate = "2026-03-07T18:00:00";
 
 function Countdown({ targetDate }: { targetDate: string }) {
-  const calculate = () => {
+  const calc = () => {
     const diff = +new Date(targetDate) - +new Date();
     if (diff <= 0) return null;
 
@@ -18,10 +18,10 @@ function Countdown({ targetDate }: { targetDate: string }) {
     };
   };
 
-  const [time, setTime] = useState<any>(calculate());
+  const [time, setTime] = useState<any>(calc());
 
   useEffect(() => {
-    const i = setInterval(() => setTime(calculate()), 1000);
+    const i = setInterval(() => setTime(calc()), 1000);
     return () => clearInterval(i);
   }, []);
 
@@ -63,52 +63,36 @@ function LiveIndicator({ targetDate }: { targetDate: string }) {
   );
 }
 
-function PlayerCard({ nick, role, lvl, kd }: any) {
-  const [hover, setHover] = useState(false);
-
+function PlayerCard({ nick, role, lvl }: any) {
   return (
     <motion.div
       whileHover={{ scale: 1.05 }}
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-      className="bg-[#111] border border-neutral-800 p-6"
+      className="bg-[#111] border border-neutral-800 p-6 space-y-2"
     >
       <div className="text-2xl font-extrabold">{nick}</div>
       <div className="text-neutral-400 text-sm">{role}</div>
       <div className="text-orange-500 font-bold text-sm">LVL {lvl}</div>
-
-      <AnimatePresence>
-        {hover && (
-          <motion.div
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0 }}
-            className="text-orange-400 font-bold mt-2"
-          >
-            K/D: {kd}
-          </motion.div>
-        )}
-      </AnimatePresence>
     </motion.div>
   );
 }
 
 export default function TeamSite() {
-  const [section, setSection] = useState("home");
+  const [section, setSection] = useState("roster");
 
   const players = [
-    { nick: "amullet", role: "Rifler", lvl: 8, kd: "1.35" },
-    { nick: "s1per", role: "Rifler", lvl: 8, kd: "1.26" },
-    { nick: "xinxed", role: "Captain", lvl: 9, kd: "1.12" },
-    { nick: "kironixx", role: "Rifler", lvl: 8, kd: "1.15" },
-    { nick: "for4ward", role: "AWP", lvl: 8, kd: "1.05" },
+    { nick: "amulet 🇺🇦", role: "Rifler / IGL", lvl: 8 },
+    { nick: "balamed 🇷🇺", role: "Rifler", lvl: 10 },
+    { nick: "kironnix 🇷🇺", role: "Lurker", lvl: 8 },
+    { nick: "s1per 🇷🇺", role: "Rifler", lvl: 8 },
+    { nick: "for4ward 🇷🇺", role: "AWP", lvl: 8 },
   ];
 
   return (
     <div className="min-h-screen bg-black text-white relative overflow-hidden">
 
-      {/* Esports animated background */}
+      {/* Animated esports background */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,120,0,0.15),transparent_40%),radial-gradient(circle_at_80%_80%,rgba(255,0,120,0.08),transparent_50%)] animate-pulse" />
+
       <div className="relative z-10 max-w-6xl mx-auto px-6 py-24">
 
         {/* HERO */}
@@ -123,59 +107,92 @@ export default function TeamSite() {
           </p>
         </motion.div>
 
-        {/* NAV */}
+        {/* NAVIGATION */}
         <div className="flex justify-center gap-6 mb-16 flex-wrap">
-          {["roster","tournaments","partners","hall"].map((item) => (
+          {[
+            { id: "roster", name: "Состав" },
+            { id: "tournaments", name: "Турниры" },
+            { id: "partners", name: "Партнёрство" },
+            { id: "hall", name: "Зал славы" },
+          ].map((item) => (
             <button
-              key={item}
-              onClick={() => setSection(item)}
+              key={item.id}
+              onClick={() => setSection(item.id)}
               className={`px-6 py-3 font-bold transition ${
-                section === item
+                section === item.id
                   ? "bg-orange-500 text-black"
                   : "bg-[#111] border border-neutral-800 hover:border-orange-500"
               }`}
             >
-              {item === "roster" && "Состав"}
-              {item === "tournaments" && "Турниры"}
-              {item === "partners" && "Партнёрство"}
-              {item === "hall" && "Зал славы"}
+              {item.name}
             </button>
           ))}
         </div>
 
         <AnimatePresence mode="wait">
 
+          {/* ROSTER */}
           {section === "roster" && (
             <motion.div
               key="roster"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
-              className="grid md:grid-cols-3 gap-8"
             >
-              {players.map(p => <PlayerCard key={p.nick} {...p} />)}
+
+              <div className="grid md:grid-cols-3 gap-8">
+                {players.map((p) => (
+                  <PlayerCard key={p.nick} {...p} />
+                ))}
+              </div>
+
+              {/* BENCH */}
+              <div className="mt-12">
+                <h3 className="text-xl font-bold text-neutral-400 mb-4">
+                  BENCH
+                </h3>
+
+                <div className="bg-[#111] border border-neutral-800 p-6 space-y-2">
+                  <div>Hulsey — LVL 7 | Rifler</div>
+                  <div>Winda — LVL 8 | Rifler</div>
+                </div>
+              </div>
+
             </motion.div>
           )}
 
+          {/* TOURNAMENTS */}
           {section === "tournaments" && (
             <motion.div
               key="tournaments"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0 }}
-              className="space-y-12"
+              className="space-y-10"
             >
-              {["RIEM RIO","W StarLadder"].map(name => (
+
+              {["RIEM RIO", "W StarLadder"].map((name) => (
                 <div key={name} className="bg-[#111] border border-neutral-800 p-8">
                   <h3 className="text-2xl font-bold text-orange-500">{name}</h3>
+
                   <div>7 марта 2026 — 18:00</div>
-                  <LiveIndicator targetDate={tournamentDate}/>
-                  <Countdown targetDate={tournamentDate}/>
+
+                  <LiveIndicator targetDate={tournamentDate} />
+                  <Countdown targetDate={tournamentDate} />
+
+                  {name === "RIEM RIO" && (
+                    <div className="text-neutral-400 mt-4">
+                      Group A: 1337 Team / Xtreme Gaming / DarkPulse
+                    </div>
+                  )}
+
                 </div>
               ))}
+
             </motion.div>
           )}
 
+          {/* PARTNERS */}
           {section === "partners" && (
             <motion.div
               key="partners"
@@ -184,6 +201,7 @@ export default function TeamSite() {
               exit={{ opacity: 0 }}
               className="bg-[#111] border border-neutral-800 p-10 space-y-6"
             >
+
               <h2 className="text-3xl font-bold text-orange-500">1WIN</h2>
 
               <div className="font-bold text-lg">
@@ -203,9 +221,11 @@ export default function TeamSite() {
               >
                 Перейти на 1WIN
               </a>
+
             </motion.div>
           )}
 
+          {/* HALL OF FAME */}
           {section === "hall" && (
             <motion.div
               key="hall"
