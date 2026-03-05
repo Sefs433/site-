@@ -3,9 +3,10 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-const tournamentDate = "2026-03-07T18:00:00";
+const riemDate = "2026-03-07T18:00:00";
 
 function Countdown({ targetDate }: { targetDate: string }) {
+
   const calc = () => {
     const diff = +new Date(targetDate) - +new Date();
     if (diff <= 0) return null;
@@ -41,29 +42,6 @@ function Countdown({ targetDate }: { targetDate: string }) {
   );
 }
 
-function LiveIndicator({ targetDate }: { targetDate: string }) {
-  const [live, setLive] = useState(false);
-
-  useEffect(() => {
-    const check = () => {
-      setLive(new Date() >= new Date(targetDate));
-    };
-
-    check();
-    const i = setInterval(check, 1000);
-    return () => clearInterval(i);
-  }, []);
-
-  if (!live) return null;
-
-  return (
-    <div className="flex items-center gap-2 text-red-500 font-bold mt-2 animate-pulse">
-      <span className="w-3 h-3 bg-red-500 rounded-full"></span>
-      LIVE NOW
-    </div>
-  );
-}
-
 function PlayerCard({ nick, role, lvl }: any) {
   return (
     <motion.div
@@ -72,7 +50,9 @@ function PlayerCard({ nick, role, lvl }: any) {
     >
       <div className="text-2xl font-extrabold">{nick}</div>
       <div className="text-neutral-400 text-sm">{role}</div>
-      <div className="text-orange-500 font-bold text-sm">LVL {lvl}</div>
+      <div className="text-orange-500 font-bold text-sm">
+        LVL {lvl}
+      </div>
     </motion.div>
   );
 }
@@ -92,7 +72,7 @@ export default function TeamSite() {
   return (
     <div className="min-h-screen bg-black text-white relative overflow-hidden">
 
-      {/* Animated esports background */}
+      {/* animated esports background */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,120,0,0.15),transparent_40%),radial-gradient(circle_at_80%_80%,rgba(255,0,120,0.08),transparent_50%)] animate-pulse" />
 
       <div className="relative z-10 max-w-6xl mx-auto px-6 py-24">
@@ -103,13 +83,16 @@ export default function TeamSite() {
           animate={{ opacity: 1, y: 0 }}
           className="text-center mb-20"
         >
-          <h1 className="text-8xl font-black">1337</h1>
+          <h1 className="text-8xl font-black">
+            1337
+          </h1>
+
           <p className="text-neutral-400 mt-4 text-xl">
             Built to dominate. Made to win.
           </p>
         </motion.div>
 
-        {/* NAVIGATION */}
+        {/* NAV */}
         <div className="flex justify-center gap-6 mb-16 flex-wrap">
 
           <button
@@ -159,7 +142,6 @@ export default function TeamSite() {
                 ))}
               </div>
 
-              {/* BENCH */}
               <div className="mt-12">
 
                 <h3 className="text-xl font-bold text-neutral-400 mb-4">
@@ -195,8 +177,7 @@ export default function TeamSite() {
 
                 <div>7 марта 2026 — 18:00</div>
 
-                <LiveIndicator targetDate={tournamentDate} />
-                <Countdown targetDate={tournamentDate} />
+                <Countdown targetDate={riemDate} />
 
                 <div className="text-neutral-400 mt-4">
                   Group A: 1337 Team / Xtreme Gaming / DarkPulse
@@ -204,30 +185,47 @@ export default function TeamSite() {
 
               </div>
 
-              {/* W StarLadder */}
-              <div className="bg-[#111] border border-neutral-800 p-8">
+              {/* W STARLADDER */}
+              <div className="bg-[#111] border border-neutral-800 p-8 space-y-4">
 
                 <h3 className="text-2xl font-bold text-orange-500">
                   W StarLadder
                 </h3>
 
-                <div className="mt-2 text-neutral-300">
+                <div className="text-neutral-300">
                   Первый матч
                 </div>
 
-                <div className="text-lg font-bold">
-                  1337 Team vs Evo Academy
+                <div className="text-xl font-bold">
+                  1337 vs Evo Academy
                 </div>
 
                 <div className="text-neutral-400">
-                  7 марта 2026 — 18:00
+                  7 марта 2026
                 </div>
 
-                <LiveIndicator targetDate={tournamentDate} />
-                <Countdown targetDate={tournamentDate} />
+                <div className="text-neutral-500">
+                  Время будет объявлено позже
+                </div>
 
-                <div className="text-neutral-500 text-sm mt-4">
-                  Пики карт будут объявлены позже
+                <div className="mt-4 text-neutral-300">
+                  Карты
+                </div>
+
+                <div className="flex gap-3 mt-2">
+
+                  <span className="bg-[#1a1a1a] px-4 py-2 border border-neutral-700">
+                    Ancient
+                  </span>
+
+                  <span className="bg-[#1a1a1a] px-4 py-2 border border-neutral-700">
+                    Mirage
+                  </span>
+
+                  <span className="bg-[#1a1a1a] px-4 py-2 border border-neutral-700">
+                    Nuke
+                  </span>
+
                 </div>
 
               </div>
@@ -270,7 +268,7 @@ export default function TeamSite() {
             </motion.div>
           )}
 
-          {/* HALL OF FAME */}
+          {/* HALL */}
           {section === "hall" && (
             <motion.div
               key="hall"
@@ -279,10 +277,8 @@ export default function TeamSite() {
               exit={{ opacity: 0 }}
               className="bg-[#111] border border-neutral-800 p-10 space-y-4"
             >
-
               <div>🥉 3 место — W Cup 2</div>
               <div>Лучшие игроки: s1per / fonely</div>
-
             </motion.div>
           )}
 
